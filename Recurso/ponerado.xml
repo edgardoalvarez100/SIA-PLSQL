@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Db flnm="ponerado" nm="SIA" ver="1.3.4">
+  <VerLbl/>
+  <VerNotes/>
+  <DefTblOpts/>
+  <DocFolder>G:\base datos\Proyecto</DocFolder>
+  <Sch Cm="" nm="SIA">
+    <Tbl UsSo="1" nm="sia_asignaturas">
+      <TblOpts/>
+      <Pk ClNs="asi_codigo" nm="pksia_asignaturas"/>
+      <Cl au="1" df="" nm="asi_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="asi_nombre" nu="0">
+        <DT arr="0" ds="VarChar2" en="" id="781" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="asi_estado" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="asi_creditos" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="asi_horas_teoricas" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="asi_horas_practicas" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="asi_horas_independientes" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="asi_tipo" nu="0">
+        <DT arr="0" ds="VarChar2" en="" id="781" ln="1" sc="null" sg="1" un="0"/>
+      </Cl>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="sia_estudiantes">
+      <TblOpts/>
+      <Pk ClNs="est_codigo" nm="pksia_estudiantes"/>
+      <Cl au="1" df="" nm="est_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_nombres" nu="0">
+        <DT arr="0" ds="VarChar2" en="" id="781" ln="32" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_apellidos" nu="0">
+        <DT arr="0" ds="VarChar2" en="" id="781" ln="30" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_telefono" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_identificacion" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="1"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_estado" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_direccion" nu="1">
+        <DT arr="0" ds="VarChar2" en="" id="781" ln="40" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_cod_matricula" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="sia_notas">
+      <TblOpts/>
+      <Pk ClNs="not_codigo" nm="pksia_notas"/>
+      <Cl au="1" df="" nm="not_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="not_1_corte" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="not_2_corte" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="not_3_corte" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="pro_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="not_definitiva" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_notas_proyecciones" prLkCl="pro_codigo" upAc="3">
+        <PrTb mn="0" nm="sia_proyecciones" oe="1" sch="SIA" zr="0"/>
+        <CdTb mn="1" nm="sia_notas" oe="0" sch="SIA" zr="1"/>
+        <ClPr cdCl="pro_codigo" prCl="pro_codigo"/>
+      </Fk>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="sia_proyecciones">
+      <TblOpts/>
+      <Pk ClNs="pro_codigo" nm="pksia_proyecciones"/>
+      <Cl au="0" df="" nm="asi_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="1" df="" nm="pro_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="pro_estado" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="est_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_mat_asi_estudiantes" prLkCl="est_codigo" upAc="3">
+        <PrTb mn="0" nm="sia_estudiantes" oe="1" sch="SIA" zr="0"/>
+        <CdTb mn="1" nm="sia_proyecciones" oe="0" sch="SIA" zr="1"/>
+        <ClPr cdCl="est_codigo" prCl="est_codigo"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_pro_asi_asignaturas" prLkCl="asi_codigo" upAc="3">
+        <PrTb mn="0" nm="sia_asignaturas" oe="1" sch="SIA" zr="0"/>
+        <CdTb mn="1" nm="sia_proyecciones" oe="0" sch="SIA" zr="1"/>
+        <ClPr cdCl="asi_codigo" prCl="asi_codigo"/>
+      </Fk>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="sia_usuarios">
+      <TblOpts/>
+      <Pk ClNs="usu_codigo" nm="pksia_usuarios"/>
+      <Cl au="1" df="" nm="usu_codigo" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="usu_usuario" nu="0">
+        <DT arr="0" ds="VarChar2" en="" id="781" ln="40" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="usu_pass" nu="0">
+        <DT arr="0" ds="VarChar2" en="" id="781" ln="40" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="usu_estado" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <SchTrHis/>
+    </Tbl>
+    <CustomTypes/>
+  </Sch>
+  <Dgm nm="diagramA">
+    <RnCf FtSz="9" lkStgy="OffsetDirect" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="1" PkCols="1"/>
+      <ErNotation>DbwErNotation</ErNotation>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ffccccff" sch="SIA" tbl="sia_estudiantes" x="78" y="47"/>
+    <TbGl bkCl="ffccccff" sch="SIA" tbl="sia_asignaturas" x="640" y="51"/>
+    <TbGl bkCl="ffccccff" sch="SIA" tbl="sia_notas" x="411" y="259"/>
+    <TbGl bkCl="ffccccff" sch="SIA" tbl="sia_proyecciones" x="411" y="48"/>
+    <TbGl bkCl="ffccccff" sch="SIA" tbl="sia_usuarios" x="97" y="248"/>
+    <FkGl bkCl="ff000000" nm="SIA.sia_notas.fk_notas_proyecciones"/>
+    <FkGl bkCl="ff000000" nm="SIA.sia_proyecciones.fk_mat_asi_estudiantes"/>
+    <FkGl bkCl="ff000000" nm="SIA.sia_proyecciones.fk_pro_asi_asignaturas"/>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <RnmMgr NxRnmId="45">
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="26" nNm="sia_proyecciones" oNm="siaproyecciones"/>
+      <Rnm id="3" nNm="siaproyecciones" oNm="proyecciones"/>
+      <Rnm id="1" nNm="proyecciones" oNm="proyeccion"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="25" nNm="sia_estudiantes" oNm="siaestudiantes"/>
+      <Rnm id="2" nNm="siaestudiantes" oNm="estudiantes"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="28" nNm="sia_asignaturas" oNm="siaasignaturas"/>
+      <Rnm id="4" nNm="siaasignaturas" oNm="asignaturas"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_estudiantes" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="11" nNm="est_nombres" oNm="estnombres"/>
+      <Rnm id="5" nNm="estnombres" oNm="nombres"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_estudiantes" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="12" nNm="est_apellidos" oNm="estapellidos"/>
+      <Rnm id="6" nNm="estapellidos" oNm="apellidos"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_estudiantes" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="13" nNm="est_telefono" oNm="esttelefono"/>
+      <Rnm id="7" nNm="esttelefono" oNm="telefono"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_estudiantes" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="14" nNm="est_identificacion" oNm="estidentificacion"/>
+      <Rnm id="8" nNm="estidentificacion" oNm="identificacion"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_asignaturas" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="22" nNm="asi_estado" oNm="asiestado"/>
+      <Rnm id="9" nNm="asiestado" oNm="estado"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_estudiantes" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="10" nNm="est_codigo" oNm="estcodigo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_estudiantes" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="15" nNm="est_estado" oNm="estestado"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_proyecciones" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="16" nNm="pro_codigo" oNm="procodigo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_proyecciones" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="17" nNm="est_codigo" oNm="estcodigo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_proyecciones" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="18" nNm="asi_codigo" oNm="asicodigo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_proyecciones" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="19" nNm="pro_estado" oNm="estado"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_asignaturas" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="20" nNm="asi_codigo" oNm="asicodigo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_asignaturas" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="21" nNm="asi_nombre" oNm="asinombre"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="30" nNm="sia_periodos" oNm="sia_periodo"/>
+      <Rnm id="27" nNm="sia_periodo" oNm="siaperiodo"/>
+      <Rnm id="23" nNm="siaperiodo" oNm="asiperiodo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="29" nNm="sia_notas" oNm="siainotas"/>
+      <Rnm id="24" nNm="siainotas" oNm="asinotas"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_notas" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="31" nNm="not_1_corte" oNm="1er_corte"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_notas" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="32" nNm="not_2_corte" oNm="2_corte"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_notas" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="33" nNm="not_habilitacion" oNm="not_habitacion"/>
+    </RnmCh>
+    <RnmCh ObjCls="Schema" ParCls="Database" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="35" nNm="SIA" oNm="Sia"/>
+      <Rnm id="34" nNm="Sia" oNm="schemaA"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_matriculas" SupCls="Schema" SupNme="SIA">
+      <Rnm id="36" nNm="per_codigo" oNm="per_codigp"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="38" nNm="sia_prog_asig" oNm="sia_lista_asignaturas"/>
+      <Rnm id="37" nNm="sia_lista_asignaturas" oNm="lista_asignaturas"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_prog_asig" SupCls="Schema" SupNme="SIA">
+      <Rnm id="39" nNm="pro_asi_codigo" oNm="lis_codigo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="SIA" SupCls="" SupNme="">
+      <Rnm id="42" nNm="sia_proyecciones" oNm="sia_mat_asi"/>
+      <Rnm id="40" nNm="sia_mat_asi" oNm="sia_pro_asi"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_proyecciones" SupCls="Schema" SupNme="SIA">
+      <Rnm id="44" nNm="pro_codigo" oNm="mat_codigo"/>
+      <Rnm id="41" nNm="mat_codigo" oNm="pro_codigo"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="sia_proyecciones" SupCls="Schema" SupNme="SIA">
+      <Rnm id="43" nNm="pro_estado" oNm="mat_estado"/>
+    </RnmCh>
+  </RnmMgr>
+  <DbDocOptionMgr>
+    <BasicOptionMgr>
+      <Name>db.doc.option.mgr</Name>
+      <BoolOpt lbl="Diagrams" nm="doc.diagrams" on="1" spl="0"/>
+      <BoolOpt lbl="Foreign Keys" nm="doc.fks" on="1" spl="0"/>
+      <BoolOpt lbl="Indexes" nm="doc.indexes" on="1" spl="0"/>
+      <BoolOpt lbl="Overwrite CSS File" nm="doc.overwrite.css" on="1" spl="0"/>
+      <BoolOpt lbl="Procedures" nm="doc.procs" on="1" spl="0"/>
+      <BoolOpt lbl="Schemas" nm="doc.schemas" on="1" spl="0"/>
+      <BoolOpt lbl="Sequences" nm="doc.sequences" on="1" spl="0"/>
+      <BoolOpt lbl="Tables" nm="doc.tables" on="1" spl="0"/>
+      <BoolOpt lbl="Triggers" nm="doc.triggers" on="1" spl="0"/>
+      <BoolOpt lbl="Views" nm="doc.views" on="1" spl="0"/>
+    </BasicOptionMgr>
+  </DbDocOptionMgr>
+  <OpenEditors>
+    <OpenEditor ClsNm="Diagram" fqn="null.diagramA" selected="1"/>
+  </OpenEditors>
+  <TreePaths>
+    <TreePath/>
+    <TreePath>/Schemas (1)</TreePath>
+    <TreePath>/Schemas (1)/SIA</TreePath>
+    <TreePath>/Schemas (1)/SIA/Tables (5)</TreePath>
+  </TreePaths>
+</Db>
