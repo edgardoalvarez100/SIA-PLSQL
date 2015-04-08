@@ -31,7 +31,8 @@ public class UsuarioDao extends DataBaseOracle {
             cst.registerOutParameter(3, OracleTypes.VARCHAR);
             cst.executeUpdate();
             pass1 = cst.getString(3);
-            if (!"".equals(pass1)) {
+            
+            if (pass1 !=null) {              
                 respuesta = true;
             }
         } catch (SQLException ex) {

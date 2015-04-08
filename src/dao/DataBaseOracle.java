@@ -39,8 +39,7 @@ public class DataBaseOracle {
     }
     
  public synchronized void desconectarBD(Connection con) throws SQLException {
-        System.out.println("Cerrando Conexion");
-        if (con != null) {
+                if (con != null) {
             con.close();
         }
     }
