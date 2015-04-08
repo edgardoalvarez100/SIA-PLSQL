@@ -1,6 +1,7 @@
+import dao.DataBaseOracle;
 import javax.swing.*;
 import java.sql.*;
-public class actualizar_asignatura extends javax.swing.JFrame {
+public class actualizar_asignatura extends javax.swing.JFrame{
 
     /** Creates new form actualizar_asignatura */
     public actualizar_asignatura() {
@@ -272,6 +273,7 @@ private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
      try{
         boolean encontrado = false;
+        Connection conexion =null;
         ResultSet con;
         
         String sql="SELECT * FROM sia_asignaturas WHERE asi_estado=1 and asi_codigo="+Integer.parseInt(txt_codigo.getText());

@@ -1,20 +1,25 @@
+import dao.DataBaseOracle;
 import java.io.*;
 import java.sql.*;
 import javax.swing.*;
 
 
-public class Reporte {
+public class Reporte extends DataBaseOracle{
 public static String Titulo,SQL,Logo,Archivo;
   public static int ncol;
 //Metodo que recibe el nombre del reporte, la consulta sql, el encabezado de titulos de la tabla,
 //   numero de columnas, titulo del reporte y el logo
     //
- public static void  ReportHTML(String encabezado[]){
-                ResultSet con;
+ public  void  ReportHTML(String encabezado[]){
+                ResultSet con=null;
+                CallableStatement cst=null;
                 try{
                    // Se crea el archivo independiente que exista o no
                     FileWriter file=new  FileWriter(Archivo);
-                     con=DataBaseOracle.Query(SQL);// se ejecuta la consulta
+                   
+                    
+                     SQL="{call ()}";
+                    
                     //Para escribir en el archivo
                        file.write("<HTML><meta http-equiv='Content-Type' content='text/html; charset=utf-8' /><HEAD><TITLE>"+Titulo+"</TITLE></HEAD>\n");
                     //Para limpiar el buffer

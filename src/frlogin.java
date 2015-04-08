@@ -1,3 +1,4 @@
+import dao.DataBaseOracle;
 import java.awt.BorderLayout;
 import javax.swing.*;
 import java.sql.*;
@@ -7,7 +8,7 @@ public class frlogin extends javax.swing.JFrame {
     /** Creates new form frlogin */
     public frlogin() {
         initComponents();
-        DataBaseOracle.Open ();//abre conexion con la base de datos      
+          
         
     }
 
