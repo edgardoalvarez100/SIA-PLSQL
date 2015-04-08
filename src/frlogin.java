@@ -1,6 +1,8 @@
 
 import dao.DataBaseOracle;
+import dao.UsuarioDao;
 import java.awt.BorderLayout;
+import java.awt.HeadlessException;
 import javax.swing.*;
 import java.sql.*;
 
@@ -133,20 +135,10 @@ private void btentrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     // Validar campos antes:try {
     try {
         if (validar()) {
-            ResultSet con = null;
             boolean encontrado = false;
-
-            String sql = "SELECT u.usu_pass FROM sia_usuarios u WHERE u.usu_usuario='" + txt_usuario.getText() + "' and u.usu_estado=1";
-            //con=DataBaseOracle.Query(sql);
             String pass = txt_pass.getText();
-
-            while (con.next()) {
-                String pass1 = con.getString("usu_pass");
-
-                if (pass.equals(pass1)) {
-                    encontrado = true;
-                }
-            }//
+            UsuarioDao db = new UsuarioDao();
+            encontrado = db.loguear(txt_usuario.getText(), pass);
             if (encontrado) {
                 this.hide();
                 frprincipal a = new frprincipal();
@@ -156,10 +148,8 @@ private void btentrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 javax.swing.JOptionPane.showMessageDialog(this, "Error Usuario o Pass Invalido", "Error", 1);
             }
 
-            con.close();
-
         }
-    } catch (Exception de) {
+    } catch (HeadlessException de) {
         System.err.println(de.getMessage());
     }
 }//GEN-LAST:event_btentrarActionPerformed
