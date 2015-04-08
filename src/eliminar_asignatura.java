@@ -187,10 +187,10 @@ private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
      try{
         boolean encontrado = false;
-        ResultSet con;
+        ResultSet con=null;
         
         String sql="SELECT * FROM sia_asignaturas WHERE asi_estado=1 and asi_codigo="+Integer.parseInt(txt_codigo.getText());
-        con=DataBaseOracle.Query(sql);
+        //con=DataBaseOracle.Query(sql);
         String codigo = txt_codigo.getText();
         
       while(con.next()){
@@ -243,7 +243,7 @@ private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                              
         String sql ="UPDATE sia_asignaturas SET asi_estado=0 WHERE asi_codigo="+txt_codigo.getText();
 
-        DataBaseOracle.Execute(sql);
+        //DataBaseOracle.Execute(sql);
         JOptionPane.showMessageDialog(this, "Asignatura Eliminada");
         this.hide();
         

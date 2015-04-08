@@ -234,7 +234,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=4;
         String V[]={"CODIGO","NOMBRES", "APELLIDOS","P. PONDERADO"};
         Reporte.Titulo="Estudiantes Aprobados";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
         
     }//GEN-LAST:event_bt_1ActionPerformed
 
@@ -259,7 +259,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=4;
         String V[]={"CODIGO","NOMBRES", "APELLIDOS","P. PONDERADO"};
         Reporte.Titulo="Estudiantes Reprobados";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_2ActionPerformed
 
     private void bt_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_3ActionPerformed
@@ -273,7 +273,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=2;
         String V[]={"CANTIDAD", "SUMA TOTAL"};
         Reporte.Titulo="Asignaturas Tipo A";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_3ActionPerformed
 
     private void bt_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_4ActionPerformed
@@ -286,7 +286,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=2;
         String V[]={"CANTIDAD", "SUMA TOTAL"};
         Reporte.Titulo="Asignaturas Tipo B";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_4ActionPerformed
 
     private void bt_5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_5ActionPerformed
@@ -301,7 +301,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=1;
         String V[]={"CANTIDAD"};
         Reporte.Titulo="Cantidad Estudiantes P.P. Menores a 2.0";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
         
     }//GEN-LAST:event_bt_5ActionPerformed
 
@@ -315,7 +315,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=1;
         String V[]={"CANTIDAD"};
         Reporte.Titulo="Cantidad Estudiantes P.P. Entre 2 y menores a 3";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_6ActionPerformed
 
     private void bt_7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_7ActionPerformed
@@ -328,7 +328,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=1;
         String V[]={"CANTIDAD"};
         Reporte.Titulo="Cantidad Estudiantes P.P. Entre 3 y menores a 4";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_7ActionPerformed
 
     private void bt_8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_8ActionPerformed
@@ -341,7 +341,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=1;
         String V[]={"CANTIDAD"};
         Reporte.Titulo="Cantidad Estudiantes P.P. Entre 4 y 5";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_8ActionPerformed
 
     private void bt_9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_9ActionPerformed
@@ -366,7 +366,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=3;
         String V[]={"NOMBRES", "APELLIDOS","P. PONDERADO"};
         Reporte.Titulo="Estudiantes Mejor Ponderado";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_9ActionPerformed
 
     private void bt_peorpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_peorpActionPerformed
@@ -389,7 +389,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=3;
         String V[]={"NOMBRES", "APELLIDOS","P. PONDERADO"};
         Reporte.Titulo="Estudiantes Peor Ponderado";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_peorpActionPerformed
 
     private void bt_10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_10ActionPerformed
@@ -406,7 +406,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=1;
         String V[]={"P. PONDERADO"};
         Reporte.Titulo="Promedio Ponderado";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_10ActionPerformed
 
     private void bt_12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_12ActionPerformed
@@ -425,7 +425,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=4;
         String V[]={"CODIGO","NOMBRES", "APELLIDOS","CREDITOS APROBADOS"};
         Reporte.Titulo="Creditos Aprobados - Estudiantes Aprobados";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
         
         
     }//GEN-LAST:event_bt_12ActionPerformed
@@ -445,7 +445,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=3;
         String V[]={"CODIGO","NOMBRES", "APELLIDOS","CREDITOS APROBADOS"};
         Reporte.Titulo="Creditos Aprobados - Estudiantes Reprobados";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
     }//GEN-LAST:event_bt_13ActionPerformed
 
     private void bt_11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_11ActionPerformed
@@ -461,7 +461,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=3;
         String V[]={"CODIGO ASIGNATURA","ASIGNATURAS", "CREDITOS"};
         Reporte.Titulo="Asignatura con mayor creditos";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
         
     }//GEN-LAST:event_bt_11ActionPerformed
 
@@ -479,7 +479,7 @@ public class frreportes extends javax.swing.JFrame {
         Reporte.ncol=3;
         String V[]={"CODIGO ASIGNATURA","ASIGNATURAS", "CREDITOS"};
         Reporte.Titulo="Asignatura con menor creditos";
-        Reporte.ReportHTML(V);
+        //Reporte.ReportHTML(V);
         
     }//GEN-LAST:event_bt_menorcreditosActionPerformed
 

@@ -3,57 +3,58 @@ import dao.DataBaseOracle;
 import java.util.*;
 import java.sql.*;
 import javax.swing.*;
+
 public class nuevo_estudiante extends javax.swing.JFrame {
 
     public nuevo_estudiante() {
         initComponents();
         secuencia_codigo();
-        
+
     }
-    public boolean validar(){
-       if(txt_nombre.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error ingresar nombre", "Error",1);
-        return false;
+
+    public boolean validar() {
+        if (txt_nombre.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error ingresar nombre", "Error", 1);
+            return false;
+        }
+        if (txt_apellidos.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar apellidos", "Error", 1);
+            return false;
+        }
+        if (txt_identificacion.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar identificación", "Error", 1);
+            return false;
+        }
+        if (txt_direccion.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar dirección", "Error", 1);
+            return false;
+        }
+        if (txt_telefono.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar dirección", "Error", 1);
+            return false;
+        }
+        return true;
     }
-    if(txt_apellidos.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar apellidos", "Error",1);
-        return false;
-    }
-     if(txt_identificacion.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar identificación", "Error",1);
-        return false;
-    }
-      if(txt_direccion.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar dirección", "Error",1);
-        return false;
-    }
-       if(txt_telefono.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar dirección", "Error",1);
-        return false;
-    }
-    return true;
-    }
-public void secuencia_codigo(){
-    try{
-       ResultSet con;
-        String sql="SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_CODIGO_ESTUDIANTE'";
-    con=DataBaseOracle.Query(sql);
-      while(con.next()){
-          String consulta = con.getString(1);
-          int n = Integer.parseInt(consulta);
-          consulta = String.valueOf(n+1);
-          Calendar c = Calendar.getInstance();
-        String annio = Integer.toString(c.get(Calendar.YEAR));
-        lbcodigo.setText(annio + consulta);
-    }
-      con.close();
-    }
-     catch (Exception de) {
+
+    public void secuencia_codigo() {
+        try {
+            ResultSet con=null;
+            String sql = "SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_CODIGO_ESTUDIANTE'";
+            //con = DataBaseOracle.Query(sql);
+            while (con.next()) {
+                String consulta = con.getString(1);
+                int n = Integer.parseInt(consulta);
+                consulta = String.valueOf(n + 1);
+                Calendar c = Calendar.getInstance();
+                String annio = Integer.toString(c.get(Calendar.YEAR));
+                lbcodigo.setText(annio + consulta);
+            }
+            con.close();
+        } catch (Exception de) {
             System.err.println(de.getMessage());
         }
-}
-    
-    
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -226,36 +227,32 @@ public void secuencia_codigo(){
     }// </editor-fold>//GEN-END:initComponents
 
 private void bt_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salirActionPerformed
-   this.hide();
+    this.hide();
 }//GEN-LAST:event_bt_salirActionPerformed
 
 private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
 
-    try{
-       if (validar()){
-           String sql ="INSERT INTO sia_estudiantes values(INC_ESTUDIANTE_PK.NextVal, '"+txt_nombre.getText() +"','"+txt_apellidos.getText() +"', "+txt_telefono.getText() +","+ txt_identificacion.getText() +",1,'"+txt_direccion.getText()+"',"+lbcodigo.getText()+" )";
-        DataBaseOracle.Execute(sql);
-        
-                
-        sql="select INC_CODIGO_ESTUDIANTE.NextVal from dual";
-         ResultSet con = DataBaseOracle.Query(sql);
-         while(con.next()){
-             con.getString(1);
-         }
-        JOptionPane.showMessageDialog(this, "Nuevo Estudiante Guardado");
-        this.hide();
-        
-        
-        
-    } 
-    }catch (Exception de) {
-            System.err.println(de.getMessage());
+    try {
+        if (validar()) {
+            String sql = "INSERT INTO sia_estudiantes values(INC_ESTUDIANTE_PK.NextVal, '" + txt_nombre.getText() + "','" + txt_apellidos.getText() + "', " + txt_telefono.getText() + "," + txt_identificacion.getText() + ",1,'" + txt_direccion.getText() + "'," + lbcodigo.getText() + " )";
+            //DataBaseOracle.Execute(sql);
+
+            sql = "select INC_CODIGO_ESTUDIANTE.NextVal from dual";
+            //ResultSet con = DataBaseOracle.Query(sql);
+//            while (con.next()) {
+//                con.getString(1);
+//            }
+            JOptionPane.showMessageDialog(this, "Nuevo Estudiante Guardado");
+            this.hide();
+
         }
-    
-    
+    } catch (Exception de) {
+        System.err.println(de.getMessage());
+    }
+
+
 }//GEN-LAST:event_bt_salvarActionPerformed
 
-   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -284,9 +281,9 @@ private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-              
+
                 new nuevo_estudiante().setVisible(true);
-               
+
             }
         });
     }

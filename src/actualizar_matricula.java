@@ -252,10 +252,10 @@ private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }else{
     try{
         boolean encontrado = false;
-        ResultSet con;
+        ResultSet con=null;
         
         String sql="SELECT est_codigo, est_nombres, est_apellidos, est_identificacion, mat_semestre, mat_jornada, mat_grupo FROM sia_matriculas, sia_estudiantes WHERE mat_estado=1 and sia_estudiantes.est_codigo=sia_matriculas.est_codigo and mat_codigo="+Integer.parseInt(txt_matricula.getText());
-        con=DataBaseOracle.Query(sql);
+        //con=DataBaseOracle.Query(sql);
         String codigo = txt_matricula.getText();
         
       while(con.next()){
@@ -298,7 +298,7 @@ private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
            
         String sql2 ="INSERT INTO sia_matriculas VALUES(INC_MATRICULA_PK.NextVal, (SELECT est_codigo FROM SIA_ESTUDIANTES WHERE est_cod_matricula="+txt_matricula.getText()+"), "+ txt_semestre.getSelectedItem()+", '"+ jorna +"', SYSDATE, '"+ txt_grupo.getText()+"', 1 )";
 
-        DataBaseOracle.Execute(sql2);
+        //DataBaseOracle.Execute(sql2);
         JOptionPane.showMessageDialog(this, "Nuevo Estudiante Matriculado");
         this.hide();
         

@@ -243,7 +243,7 @@ calcular_credito();
                              
         String sql ="UPDATE sia_asignaturas SET asi_nombre='"+txt_descripcion.getText()+"', asi_creditos="+txt_credito.getText()+", asi_horas_teoricas="+ht.getText()+", asi_horas_practicas="+hp.getText()+", asi_horas_independientes="+hi.getText()+", asi_tipo='"+txt_tipo.getSelectedItem()+"' WHERE asi_estado=1 and asi_codigo="+txt_codigo.getText();
 
-        DataBaseOracle.Execute(sql);
+        //DataBaseOracle.Execute(sql);
         JOptionPane.showMessageDialog(this, "Asignatura actualizada");
         this.hide();
         
@@ -274,10 +274,10 @@ private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
      try{
         boolean encontrado = false;
         Connection conexion =null;
-        ResultSet con;
+        ResultSet con=null;
         
         String sql="SELECT * FROM sia_asignaturas WHERE asi_estado=1 and asi_codigo="+Integer.parseInt(txt_codigo.getText());
-        con=DataBaseOracle.Query(sql);
+        //con=DataBaseOracle.Query(sql);
         String codigo = txt_codigo.getText();
         
       while(con.next()){

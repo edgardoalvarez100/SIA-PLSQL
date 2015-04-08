@@ -1,94 +1,83 @@
+
 import dao.DataBaseOracle;
 import javax.swing.table.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
+
 public class frnotas extends javax.swing.JFrame {
 
-   static int[ ] notas = new int[20];
+    static int[] notas = new int[20];
     private int cod_nota;
     private double nota_definitiva;
+
     public frnotas() {
         initComponents();
     }
 
-    public void buscarDatosAsignatura(String SQL)
-    {
-                String titulos[]={"Cod Proyección","Cod Asignatura", "Asignatura","Nota 1", "Nota 2", "Nota 3"};
+    public void buscarDatosAsignatura(String SQL) {
+        String titulos[] = {"Cod Proyección", "Cod Asignatura", "Asignatura", "Nota 1", "Nota 2", "Nota 3"};
 
-        int j,total1=0;
-        ResultSet con;
-        try
-        {
+        int j, total1 = 0;
+        ResultSet con = null;
+        try {
 
-            con=DataBaseOracle.Query("SELECT COUNT(*) FROM  sia_proyecciones p WHERE p.pro_estado=1");
-            if(con.next())
-            {
-              total1=con.getInt(1);
+            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM  sia_proyecciones p WHERE p.pro_estado=1");
+            if (con.next()) {
+                total1 = con.getInt(1);
             }
-            Object [][] data = new Object[total1][6];
-           
-            con=DataBaseOracle.Query(SQL);
-            j=0;
-            while(con.next())
-            {
-                data[j][0]=con.getString(1);//codigo proyection
-                data[j][1]=con.getString(2);//codigo asignatura 
-                data[j][2]=con.getString(3);//asignatura
-                data[j][3]=con.getString(4);//Corte 1
-                data[j][4]=con.getString(5);//Corte 2
-                data[j][5]=con.getString(6);//Corte 3
-                notas[j]=Integer.parseInt(con.getString(7));//codigo nota
+            Object[][] data = new Object[total1][6];
+
+            //con=DataBaseOracle.Query(SQL);
+            j = 0;
+            while (con.next()) {
+                data[j][0] = con.getString(1);//codigo proyection
+                data[j][1] = con.getString(2);//codigo asignatura 
+                data[j][2] = con.getString(3);//asignatura
+                data[j][3] = con.getString(4);//Corte 1
+                data[j][4] = con.getString(5);//Corte 2
+                data[j][5] = con.getString(6);//Corte 3
+                notas[j] = Integer.parseInt(con.getString(7));//codigo nota
 
                 j++;
             }//end while
-           // DefaultTableModel ob =new DefaultTableModel();
-            DefaultTableModel dtm = new DefaultTableModel(data,titulos);
+            // DefaultTableModel ob =new DefaultTableModel();
+            DefaultTableModel dtm = new DefaultTableModel(data, titulos);
             tabla.setModel(dtm);
+        } catch (SQLException exc) {
+            System.err.println(exc.getMessage());
         }
-        catch(SQLException exc)
-        {
-           System.err.println(exc.getMessage());
-         }
     }
-    
-    public void buscarDatosEstudiantes(String SQL)
-    {
-       String titulos[]={"Codigo","Nombres","Apellidos"};
 
-        int j,total1=0;
-        ResultSet con;
-        try
-        {
+    public void buscarDatosEstudiantes(String SQL) {
+        String titulos[] = {"Codigo", "Nombres", "Apellidos"};
 
-            con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes where est_estado=1");
-            if(con.next())
-            {
-              total1=con.getInt(1);
+        int j, total1 = 0;
+        ResultSet con=null;
+        try {
+
+            //con = DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes where est_estado=1");
+            if (con.next()) {
+                total1 = con.getInt(1);
             }
-            Object [][] data = new Object[total1+1][4];
+            Object[][] data = new Object[total1 + 1][4];
 
-            con=DataBaseOracle.Query(SQL);
-            j=0;
-            while(con.next())
-            {
-                data[j][0]=con.getString("est_cod_matricula");//codigo
-                data[j][1]=con.getString(2);//Nombre
-                data[j][2]=con.getString(3);//Apellidos
+            //con = DataBaseOracle.Query(SQL);
+            j = 0;
+            while (con.next()) {
+                data[j][0] = con.getString("est_cod_matricula");//codigo
+                data[j][1] = con.getString(2);//Nombre
+                data[j][2] = con.getString(3);//Apellidos
 
                 j++;
             }//end while
-           // DefaultTableModel ob =new DefaultTableModel();
-            DefaultTableModel dtm = new DefaultTableModel(data,titulos);
+            // DefaultTableModel ob =new DefaultTableModel();
+            DefaultTableModel dtm = new DefaultTableModel(data, titulos);
             tabla_estudiantes.setModel(dtm);
+        } catch (SQLException exc) {
+            System.err.println(exc.getMessage());
         }
-        catch(SQLException exc)
-        {
-           System.err.println(exc.getMessage());
-         }
     }
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -429,92 +418,92 @@ public class frnotas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void bt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_estActionPerformed
-fr_estudiantes.setLocationRelativeTo(null);
-fr_estudiantes.setSize(495, 300);
-fr_estudiantes.setVisible(true);
-  
+    fr_estudiantes.setLocationRelativeTo(null);
+    fr_estudiantes.setSize(495, 300);
+    fr_estudiantes.setVisible(true);
+
 }//GEN-LAST:event_bt_buscar_estActionPerformed
 
 private void bt_codigo_asignaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_codigo_asignaturaActionPerformed
-  fr_asignatura.setLocationRelativeTo(null);
-  fr_asignatura.setSize(500, 301);
-  fr_asignatura.setVisible(true);
-  String  sql="SELECT p.pro_codigo, a.asi_codigo, a.asi_nombre,  NVL(n.not_1_corte,0), NVL(n.not_2_corte,0), NVL(n.not_3_corte,0), n.not_codigo "+
-                "FROM sia_asignaturas a INNER JOIN sia_proyecciones p ON a.asi_codigo=p.asi_codigo "+
-                "INNER JOIN sia_estudiantes e ON p.est_codigo=e.est_codigo "+
-                "INNER JOIN sia_notas n ON n.pro_codigo=p.pro_codigo "+
-                "WHERE e.est_cod_matricula="+txt_codigo_estudiante.getText()+
-                " AND a.asi_estado=1 AND p.pro_estado=1 AND e.est_estado=1";
-  buscarDatosAsignatura(sql);
+    fr_asignatura.setLocationRelativeTo(null);
+    fr_asignatura.setSize(500, 301);
+    fr_asignatura.setVisible(true);
+    String sql = "SELECT p.pro_codigo, a.asi_codigo, a.asi_nombre,  NVL(n.not_1_corte,0), NVL(n.not_2_corte,0), NVL(n.not_3_corte,0), n.not_codigo "
+            + "FROM sia_asignaturas a INNER JOIN sia_proyecciones p ON a.asi_codigo=p.asi_codigo "
+            + "INNER JOIN sia_estudiantes e ON p.est_codigo=e.est_codigo "
+            + "INNER JOIN sia_notas n ON n.pro_codigo=p.pro_codigo "
+            + "WHERE e.est_cod_matricula=" + txt_codigo_estudiante.getText()
+            + " AND a.asi_estado=1 AND p.pro_estado=1 AND e.est_estado=1";
+    buscarDatosAsignatura(sql);
 }//GEN-LAST:event_bt_codigo_asignaturaActionPerformed
 
 private void btaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btaceptarActionPerformed
-        // TODO add your handling code here:
-        fr_asignatura.setVisible(false);
+    // TODO add your handling code here:
+    fr_asignatura.setVisible(false);
 }//GEN-LAST:event_btaceptarActionPerformed
 
 private void tablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMousePressed
-       
-        int i=tabla.getSelectedRow();
-        String dato=(String)tabla.getValueAt(i,1);//codigo asignatura
-        txt_codigo_asignatura.setText(dato);
-        dato=(String)tabla.getValueAt(i,0);//codigo proyeccion
-        txt_codigo_proyeccion.setText(dato);
-        dato=(String)tabla.getValueAt(i,3);//codigo proyeccion
-        txt_1corte.setText(dato);
-        dato=(String)tabla.getValueAt(i,4);//codigo proyeccion
-        txt_2corte.setText(dato);
-        dato=(String)tabla.getValueAt(i,5);//codigo proyeccion
-        txt_3corte.setText(dato);
-        cod_nota=notas[i];
 
-        
+    int i = tabla.getSelectedRow();
+    String dato = (String) tabla.getValueAt(i, 1);//codigo asignatura
+    txt_codigo_asignatura.setText(dato);
+    dato = (String) tabla.getValueAt(i, 0);//codigo proyeccion
+    txt_codigo_proyeccion.setText(dato);
+    dato = (String) tabla.getValueAt(i, 3);//codigo proyeccion
+    txt_1corte.setText(dato);
+    dato = (String) tabla.getValueAt(i, 4);//codigo proyeccion
+    txt_2corte.setText(dato);
+    dato = (String) tabla.getValueAt(i, 5);//codigo proyeccion
+    txt_3corte.setText(dato);
+    cod_nota = notas[i];
+
+
 }//GEN-LAST:event_tablaMousePressed
 
 private void bt_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_aceptarActionPerformed
-fr_estudiantes.setVisible(false);
+    fr_estudiantes.setVisible(false);
 }//GEN-LAST:event_bt_aceptarActionPerformed
 
 private void tabla_estudiantesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_estudiantesMousePressed
-  int i=tabla_estudiantes.getSelectedRow();
-        String dato=(String)tabla_estudiantes.getValueAt(i,0);//codigo
-        txt_codigo_estudiante.setText(dato);
+    int i = tabla_estudiantes.getSelectedRow();
+    String dato = (String) tabla_estudiantes.getValueAt(i, 0);//codigo
+    txt_codigo_estudiante.setText(dato);
 }//GEN-LAST:event_tabla_estudiantesMousePressed
 
 private void txt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_buscar_estActionPerformed
- 
+
 }//GEN-LAST:event_txt_buscar_estActionPerformed
 
 private void txt_buscar_estKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscar_estKeyPressed
- String sql;
-        if(!txt_buscar_est.getText().equals("")){
-            sql="SELECT est_cod_matricula, UPPER(est_nombres), UPPER(est_apellidos) FROM sia_estudiantes WHERE est_nombres LIKE '%"+txt_buscar_est.getText()+"%' AND est_estado=1";
-        } else
-            sql="SELECT est_cod_matricula, UPPER(est_nombres), UPPER(est_apellidos) FROM sia_estudiantes WHERE est_estado=1";
-        buscarDatosEstudiantes(sql);
+    String sql;
+    if (!txt_buscar_est.getText().equals("")) {
+        sql = "SELECT est_cod_matricula, UPPER(est_nombres), UPPER(est_apellidos) FROM sia_estudiantes WHERE est_nombres LIKE '%" + txt_buscar_est.getText() + "%' AND est_estado=1";
+    } else {
+        sql = "SELECT est_cod_matricula, UPPER(est_nombres), UPPER(est_apellidos) FROM sia_estudiantes WHERE est_estado=1";
+    }
+    buscarDatosEstudiantes(sql);
 }//GEN-LAST:event_txt_buscar_estKeyPressed
 
 private void bt_cancelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cancelaActionPerformed
-this.hide();
+    this.hide();
 }//GEN-LAST:event_bt_cancelaActionPerformed
 
 private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_guardarActionPerformed
 
-     try{
-       nota_definitiva = Double.valueOf(txt_1corte.getText())*0.3 + Double.valueOf(txt_2corte.getText())*0.3 + Double.valueOf(txt_3corte.getText())*0.4;
-         
-        String sql ="UPDATE sia_notas SET not_1_corte="+ Double.parseDouble(txt_1corte.getText())+", not_2_corte="+Double.parseDouble(txt_2corte.getText())+", not_3_corte="+Double.parseDouble(txt_3corte.getText())+ ", not_definitiva="+ nota_definitiva +
-                    " WHERE  sia_notas.not_codigo="+cod_nota;
-        DataBaseOracle.Execute(sql);
+    try {
+        nota_definitiva = Double.valueOf(txt_1corte.getText()) * 0.3 + Double.valueOf(txt_2corte.getText()) * 0.3 + Double.valueOf(txt_3corte.getText()) * 0.4;
+
+        String sql = "UPDATE sia_notas SET not_1_corte=" + Double.parseDouble(txt_1corte.getText()) + ", not_2_corte=" + Double.parseDouble(txt_2corte.getText()) + ", not_3_corte=" + Double.parseDouble(txt_3corte.getText()) + ", not_definitiva=" + nota_definitiva
+                + " WHERE  sia_notas.not_codigo=" + cod_nota;
+        //DataBaseOracle.Execute(sql);
         JOptionPane.showMessageDialog(this, "Notas Guardas");
         this.hide();
-        
-    
-    }catch (Exception de) {
-            System.err.println(de.getMessage());
-        }
-    
-    
+
+    } catch (Exception de) {
+        System.err.println(de.getMessage());
+    }
+
+
 }//GEN-LAST:event_bt_guardarActionPerformed
 
     /**

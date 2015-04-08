@@ -29,18 +29,18 @@ public class anadir_proyeccion extends javax.swing.JFrame {
        String titulos[]={"Codigo","Asignatura"};
 
         int j,total1=0;
-        ResultSet con;
+        ResultSet con=null;
         try
         {
 
-            con=DataBaseOracle.Query("SELECT COUNT(*) FROM  sia_asignaturas a WHERE a.asi_estado=1");
+            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM  sia_asignaturas a WHERE a.asi_estado=1");
             if(con.next())
             {
               total1=con.getInt(1);
             }
             Object [][] data = new Object[total1][4];
 
-            con=DataBaseOracle.Query(SQL);
+           // con=DataBaseOracle.Query(SQL);
             j=0;
             while(con.next())
             {
@@ -66,18 +66,18 @@ public class anadir_proyeccion extends javax.swing.JFrame {
        String titulos[]={"Codigo","Nombres","Apellidos"};
 
         int j,total1=0;
-        ResultSet con;
+        ResultSet con=null;
         try
         {
 
-            con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes where est_estado=1");
+            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes where est_estado=1");
             if(con.next())
             {
               total1=con.getInt(1);
             }
             Object [][] data = new Object[total1][4];
 
-            con=DataBaseOracle.Query(SQL);
+            //con=DataBaseOracle.Query(SQL);
             j=0;
             while(con.next())
             {
@@ -447,10 +447,10 @@ private void bt_anadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     try{
        if (validar()){
            String sql ="INSERT INTO sia_proyecciones values("+txt_codigo_asignatura.getText()+", INC_PROYECCION_PK.NextVal, 1, (SELECT est_codigo FROM sia_estudiantes WHERE est_cod_matricula="+txt_codigo_estudiante.getText() +" AND est_estado=1))";
-        DataBaseOracle.Execute(sql);
+        //DataBaseOracle.Execute(sql);
          
         sql="INSERT INTO sia_notas VALUES(INC_NOTAS_PK.NextVal, NULL, NULL, NULL, (SELECT LAST_NUMBER-1 FROM user_sequences WHERE SEQUENCE_NAME = 'INC_PROYECCION_PK'), NULL)";
-        DataBaseOracle.Execute(sql);
+        //DataBaseOracle.Execute(sql);
         JOptionPane.showMessageDialog(this, "Asignatura Añadida");
         this.hide();
         

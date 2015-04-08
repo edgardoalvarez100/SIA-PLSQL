@@ -1,46 +1,45 @@
+
 import dao.DataBaseOracle;
 import java.sql.*;
 import javax.swing.*;
 
 public class nuevo_matricula extends javax.swing.JFrame {
 
-
     public nuevo_matricula() {
         initComponents();
         secuencia_codigo();
     }
-    
-  public boolean validar(){
-       if(txt_codigo.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error ingresar Codigo Estudiante", "Error",1);
-        return false;
+
+    public boolean validar() {
+        if (txt_codigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error ingresar Codigo Estudiante", "Error", 1);
+            return false;
+        }
+        if (txt_grupo.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar Grupo", "Error", 1);
+            return false;
+        }
+
+        return true;
     }
-    if(txt_grupo.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar Grupo", "Error",1);
-        return false;
-    }
-   
-    return true;
-    }
-  
-public void secuencia_codigo(){
-    try{
-       ResultSet con;
-        String sql="SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_MATRICULA_PK'";
-    con=DataBaseOracle.Query(sql);
-      while(con.next()){
-          String consulta = con.getString(1);
-          int n = Integer.parseInt(consulta);
-          consulta = String.valueOf(n);
-        lbcodigo.setText(consulta);
-    }
-      con.close();
-    }
-     catch (Exception de) {
+
+    public void secuencia_codigo() {
+        try {
+            ResultSet con = null;
+            String sql = "SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_MATRICULA_PK'";
+            //con = DataBaseOracle.Query(sql);
+            while (con.next()) {
+                String consulta = con.getString(1);
+                int n = Integer.parseInt(consulta);
+                consulta = String.valueOf(n);
+                lbcodigo.setText(consulta);
+            }
+            con.close();
+        } catch (Exception de) {
             System.err.println(de.getMessage());
         }
-}
-   
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -261,76 +260,73 @@ public void secuencia_codigo(){
 
 private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscarActionPerformed
 // Buscar Estudiante por codigo matricula:
-    if( "".equals(txt_codigo.getText())){
-         JOptionPane.showMessageDialog(this, "Escriba el codigo del estudiante");
-    }else{
-    try{
-        boolean encontrado = false;
-        ResultSet con;
-        
-        String sql="SELECT * FROM sia_estudiantes WHERE est_estado=1 and est_cod_matricula="+Integer.parseInt(txt_codigo.getText());
-        con=DataBaseOracle.Query(sql);
-        String codigo = txt_codigo.getText();
-        
-      while(con.next()){
-         String codigo2 =  con.getString("est_cod_matricula");
-           
-    if (codigo.equals(codigo2)){
-        encontrado=true;
-       }
-   
-    if(encontrado == true){
-         txt_nombre.setText(con.getString(2));
-         txt_apellidos.setText(con.getString(3));
-         txt_identificacion.setText(con.getString(5));
-                    }
-                    
-    }
-      if(!encontrado){
-        JOptionPane.showMessageDialog(this, "No se encontró ningún estudiante");
-       
-    }
-      con.close();
-    }catch (Exception de) {
+    if ("".equals(txt_codigo.getText())) {
+        JOptionPane.showMessageDialog(this, "Escriba el codigo del estudiante");
+    } else {
+        try {
+            boolean encontrado = false;
+            ResultSet con = null;
+
+            String sql = "SELECT * FROM sia_estudiantes WHERE est_estado=1 and est_cod_matricula=" + Integer.parseInt(txt_codigo.getText());
+            //con = DataBaseOracle.Query(sql);
+            String codigo = txt_codigo.getText();
+
+            while (con.next()) {
+                String codigo2 = con.getString("est_cod_matricula");
+
+                if (codigo.equals(codigo2)) {
+                    encontrado = true;
+                }
+
+                if (encontrado == true) {
+                    txt_nombre.setText(con.getString(2));
+                    txt_apellidos.setText(con.getString(3));
+                    txt_identificacion.setText(con.getString(5));
+                }
+
+            }
+            if (!encontrado) {
+                JOptionPane.showMessageDialog(this, "No se encontró ningún estudiante");
+
+            }
+            con.close();
+        } catch (Exception de) {
             System.err.println(de.getMessage());
         }
     }
 }//GEN-LAST:event_bt_buscarActionPerformed
 
 private void bt_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cancelarActionPerformed
-this.hide();
+    this.hide();
 }//GEN-LAST:event_bt_cancelarActionPerformed
 
 private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_guardarActionPerformed
 
-    try{
-       if (validar()){
-               String jorna;  
-           if(txt_jornada.getSelectedItem().equals("Diurno")){
-              jorna = "D";
-                          }else{
-               jorna= "N";
-           }
-           
-        String sql2 ="INSERT INTO sia_matriculas VALUES(INC_MATRICULA_PK.NextVal, (SELECT est_codigo FROM SIA_ESTUDIANTES WHERE est_cod_matricula="+txt_codigo.getText()+"), "+ txt_semestre.getSelectedItem()+", '"+ jorna +"', SYSDATE, '"+ txt_grupo.getText()+"', 1 )";
+    try {
+        if (validar()) {
+            String jorna;
+            if (txt_jornada.getSelectedItem().equals("Diurno")) {
+                jorna = "D";
+            } else {
+                jorna = "N";
+            }
 
-        DataBaseOracle.Execute(sql2);
-        JOptionPane.showMessageDialog(this, "Nuevo Estudiante Matriculado");
-        this.hide();
-        
-        
-        
-    } 
-    }catch (Exception de) {
-            System.err.println(de.getMessage());
+            String sql2 = "INSERT INTO sia_matriculas VALUES(INC_MATRICULA_PK.NextVal, (SELECT est_codigo FROM SIA_ESTUDIANTES WHERE est_cod_matricula=" + txt_codigo.getText() + "), " + txt_semestre.getSelectedItem() + ", '" + jorna + "', SYSDATE, '" + txt_grupo.getText() + "', 1 )";
+
+            //DataBaseOracle.Execute(sql2);
+            JOptionPane.showMessageDialog(this, "Nuevo Estudiante Matriculado");
+            this.hide();
+
         }
-    
-    
+    } catch (Exception de) {
+        System.err.println(de.getMessage());
+    }
+
+
 }//GEN-LAST:event_bt_guardarActionPerformed
 
-   
     public static void main(String args[]) {
-       
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -349,7 +345,6 @@ private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
         //</editor-fold>
 
-       
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {

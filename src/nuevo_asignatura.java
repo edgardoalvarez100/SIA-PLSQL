@@ -5,76 +5,74 @@ import java.sql.*;
 
 public class nuevo_asignatura extends javax.swing.JFrame {
 
-    /** Creates new form nuevo_asignatura */
+    /**
+     * Creates new form nuevo_asignatura
+     */
     public nuevo_asignatura() {
         initComponents();
         secuencia_codigo();
     }
 
-    
-    
-    public void secuencia_codigo(){
-    try{
-       ResultSet con;
-        String sql="SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_ASIGNATURA_PK'";
-    con=DataBaseOracle.Query(sql);
-      while(con.next()){
-          String consulta = con.getString(1);
-          int n = Integer.parseInt(consulta);
-          consulta = String.valueOf(n);
-        lbcodigo.setText(consulta);
-    }
-      con.close();
-    }
-     catch (Exception de) {
+    public void secuencia_codigo() {
+        try {
+            ResultSet con=null;
+            String sql = "SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_ASIGNATURA_PK'";
+            //con = DataBaseOracle.Query(sql);
+            while (con.next()) {
+                String consulta = con.getString(1);
+                int n = Integer.parseInt(consulta);
+                consulta = String.valueOf(n);
+                lbcodigo.setText(consulta);
+            }
+            con.close();
+        } catch (Exception de) {
             System.err.println(de.getMessage());
         }
-}
-    public boolean validar(){
-        if(txt_descripcion.getText().equals("")){
-            JOptionPane.showMessageDialog( this, "Escriba una descripción");
+    }
+
+    public boolean validar() {
+        if (txt_descripcion.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Escriba una descripción");
             return false;
         }
-         if(ht.getText().equals("")){
-            JOptionPane.showMessageDialog( this, "Escriba horas teoricas");
+        if (ht.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Escriba horas teoricas");
             return false;
         }
-          if(hp.getText().equals("")){
-            JOptionPane.showMessageDialog( this, "Escriba horas practicas");
+        if (hp.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Escriba horas practicas");
             return false;
         }
-            
+
         return true;
     }
-    
-    public void calcular_credito(){
+
+    public void calcular_credito() {
         int resultado, horai, horap, horat;
-        
-             
-        if(validar()){
-            if("A".equals(txt_tipo.getSelectedItem())){
-                
-              horap =Integer.parseInt(hp.getText());
-              horat  =Integer.parseInt(ht.getText());
-              horai = horat*2;
-              hi.setText(Integer.toString(horai));
-              resultado = (horat+horap+horai)*16/48;
-              txt_credito.setText(Integer.toString(resultado));
+
+        if (validar()) {
+            if ("A".equals(txt_tipo.getSelectedItem())) {
+
+                horap = Integer.parseInt(hp.getText());
+                horat = Integer.parseInt(ht.getText());
+                horai = horat * 2;
+                hi.setText(Integer.toString(horai));
+                resultado = (horat + horap + horai) * 16 / 48;
+                txt_credito.setText(Integer.toString(resultado));
             }
-            
-            if("B".equals(txt_tipo.getSelectedItem())){
-                
-               horap =Integer.parseInt(hp.getText());
-              horat  =Integer.parseInt(ht.getText());
-              horai = horat+horap;
-              hi.setText(Integer.toString(horai));
-              resultado = (horat+horap+horai)*16/48;
-              txt_credito.setText(Integer.toString(resultado));
+
+            if ("B".equals(txt_tipo.getSelectedItem())) {
+
+                horap = Integer.parseInt(hp.getText());
+                horat = Integer.parseInt(ht.getText());
+                horai = horat + horap;
+                hi.setText(Integer.toString(horai));
+                resultado = (horat + horap + horai) * 16 / 48;
+                txt_credito.setText(Integer.toString(resultado));
             }
-        }            
+        }
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -241,43 +239,40 @@ public class nuevo_asignatura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void bt_calcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_calcularActionPerformed
-calcular_credito();
+    calcular_credito();
 
 }//GEN-LAST:event_bt_calcularActionPerformed
 
 private void htKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_htKeyPressed
-  
+
 }//GEN-LAST:event_htKeyPressed
 
 private void htKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_htKeyTyped
- 
+
 }//GEN-LAST:event_htKeyTyped
 
 private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_guardarActionPerformed
-calcular_credito();
+    calcular_credito();
 
- try{
-       if (validar()){
-                             
-        String sql ="INSERT INTO sia_asignaturas VALUES(INC_ASIGNATURA_PK.NextVal, '"+txt_descripcion.getText()+"', 1, "+txt_credito.getText()+", "+ht.getText()+", "+hp.getText()+", "+hi.getText()+", '"+txt_tipo.getSelectedItem()+"')";
+    try {
+        if (validar()) {
 
-        DataBaseOracle.Execute(sql);
-        JOptionPane.showMessageDialog(this, "Nueva asignatura guardada");
-        this.hide();
-        
-        
-        
-    } 
-    }catch (Exception de) {
-            System.err.println(de.getMessage());
+            String sql = "INSERT INTO sia_asignaturas VALUES(INC_ASIGNATURA_PK.NextVal, '" + txt_descripcion.getText() + "', 1, " + txt_credito.getText() + ", " + ht.getText() + ", " + hp.getText() + ", " + hi.getText() + ", '" + txt_tipo.getSelectedItem() + "')";
+
+           // DataBaseOracle.Execute(sql);
+            JOptionPane.showMessageDialog(this, "Nueva asignatura guardada");
+            this.hide();
+
         }
-    
-    
+    } catch (Exception de) {
+        System.err.println(de.getMessage());
+    }
+
 
 }//GEN-LAST:event_bt_guardarActionPerformed
 
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-this.hide();
+    this.hide();
 }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

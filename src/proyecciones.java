@@ -14,18 +14,18 @@ public class proyecciones extends javax.swing.JFrame {
        String titulos[]={"Codigo","Asignatura ","Creditos", "Nota Definitiva"};
 
         int j,total1=0;
-        ResultSet con;
+        ResultSet con=null;
         try
         {
 
-            con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes e, sia_proyecciones p WHERE e.est_codigo=p.est_codigo and e.est_estado=1 and p.pro_estado=1");
+            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes e, sia_proyecciones p WHERE e.est_codigo=p.est_codigo and e.est_estado=1 and p.pro_estado=1");
             if(con.next())
             {
               total1=con.getInt(1);
             }
             Object [][] data = new Object[total1][4];
 
-            con=DataBaseOracle.Query(SQL);
+           // con=DataBaseOracle.Query(SQL);
             j=0;
             while(con.next())
             {

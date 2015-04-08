@@ -226,7 +226,7 @@ private void bt_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     try{
        if (validar()){
            String sql ="UPDATE SIA_ESTUDIANTES SET est_nombres='"+txt_nombre.getText()+"', est_apellidos='"+txt_apellidos.getText()+"', est_direccion='"+txt_direccion.getText()+"', est_telefono="+txt_telefono.getText()+", est_identificacion="+txt_identificacion.getText()+" where est_estado=1 and est_cod_matricula="+txt_codigo.getText();
-        DataBaseOracle.Execute(sql);
+        //DataBaseOracle.Execute(sql);
         JOptionPane.showMessageDialog(this, "Actualización Realizada con Exito");
         this.hide();
         
@@ -242,10 +242,10 @@ private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
     try{
         boolean encontrado = false;
-        ResultSet con;
+        ResultSet con=null;
         
         String sql="SELECT * FROM sia_estudiantes WHERE est_estado=1 and est_cod_matricula="+Integer.parseInt(txt_codigo.getText());
-        con=DataBaseOracle.Query(sql);
+        //con=DataBaseOracle.Query(sql);
         String codigo = txt_codigo.getText();
         
       while(con.next()){
