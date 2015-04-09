@@ -1,5 +1,7 @@
 
+import dao.AsignaturaDao;
 import dao.DataBaseOracle;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
@@ -25,7 +27,9 @@ public class nuevo_asignatura extends javax.swing.JFrame {
                 lbcodigo.setText(consulta);
             }
             con.close();
-        } catch (Exception de) {
+        } catch (NumberFormatException de) {
+            System.err.println(de.getMessage());
+        } catch (SQLException de) {
             System.err.println(de.getMessage());
         }
     }
@@ -256,15 +260,16 @@ private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
     try {
         if (validar()) {
-
-            String sql = "INSERT INTO sia_asignaturas VALUES(INC_ASIGNATURA_PK.NextVal, '" + txt_descripcion.getText() + "', 1, " + txt_credito.getText() + ", " + ht.getText() + ", " + hp.getText() + ", " + hi.getText() + ", '" + txt_tipo.getSelectedItem() + "')";
+            AsignaturaDao db =new AsignaturaDao();
+            db.guardar(txt_descripcion.getText(), WIDTH, WIDTH, WIDTH, WIDTH, null);
+            
 
            // DataBaseOracle.Execute(sql);
             JOptionPane.showMessageDialog(this, "Nueva asignatura guardada");
             this.hide();
 
         }
-    } catch (Exception de) {
+    } catch (HeadlessException de) {
         System.err.println(de.getMessage());
     }
 
