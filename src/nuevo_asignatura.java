@@ -1,7 +1,5 @@
 
 import dao.AsignaturaDao;
-import dao.DataBaseOracle;
-import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
@@ -16,22 +14,11 @@ public class nuevo_asignatura extends javax.swing.JFrame {
     }
 
     public void secuencia_codigo() {
-        try {
-            ResultSet con = null;
-            String sql = "SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_ASIGNATURA_PK'";
-            //con = DataBaseOracle.Query(sql);
-            while (con.next()) {
-                String consulta = con.getString(1);
-                int n = Integer.parseInt(consulta);
-                consulta = String.valueOf(n);
-                lbcodigo.setText(consulta);
-            }
-            con.close();
-        } catch (NumberFormatException de) {
-            System.err.println(de.getMessage());
-        } catch (SQLException de) {
-            System.err.println(de.getMessage());
-        }
+        AsignaturaDao db = new AsignaturaDao();
+
+        int n = db.ultima_secuencia();
+        lbcodigo.setText(String.valueOf(n));
+
     }
 
     public boolean validar() {
@@ -267,7 +254,6 @@ private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         } else {
             JOptionPane.showMessageDialog(this, "Ocurrió un error guardando");
         }
-
     }
 
 

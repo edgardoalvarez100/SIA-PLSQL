@@ -60,4 +60,27 @@ public class AsignaturaDao extends DataBaseOracle {
         return respuesta;
     }
 
+    public int ultima_secuencia(){
+              int respuesta = 0;
+        con = conectar();
+        String sql = "{?=call ULTIMA_ASIGNATURA()}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.registerOutParameter(1, OracleTypes.NUMERIC);
+            cst.executeUpdate();
+            respuesta = cst.getInt(1);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return respuesta;
+    }
+    
 }
