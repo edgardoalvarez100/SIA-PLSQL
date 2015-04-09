@@ -1,17 +1,20 @@
 
+import beans.Estudiante;
 import dao.DataBaseOracle;
+import dao.EstudianteDao;
+import java.awt.HeadlessException;
 import java.util.*;
 import java.sql.*;
 import javax.swing.*;
 
 public class nuevo_estudiante extends javax.swing.JFrame {
-
+    
     public nuevo_estudiante() {
         initComponents();
         secuencia_codigo();
-
+        
     }
-
+    
     public boolean validar() {
         if (txt_nombre.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Error ingresar nombre", "Error", 1);
@@ -35,26 +38,17 @@ public class nuevo_estudiante extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
     public void secuencia_codigo() {
-        try {
-            ResultSet con=null;
-            String sql = "SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_CODIGO_ESTUDIANTE'";
-            //con = DataBaseOracle.Query(sql);
-            while (con.next()) {
-                String consulta = con.getString(1);
-                int n = Integer.parseInt(consulta);
-                consulta = String.valueOf(n + 1);
-                Calendar c = Calendar.getInstance();
-                String annio = Integer.toString(c.get(Calendar.YEAR));
-                lbcodigo.setText(annio + consulta);
-            }
-            con.close();
-        } catch (Exception de) {
-            System.err.println(de.getMessage());
-        }
+        
+        EstudianteDao db = new EstudianteDao();
+        int n = db.ultima_secuencia();
+        Calendar c = Calendar.getInstance();
+        String annio = Integer.toString(c.get(Calendar.YEAR));
+        lbcodigo.setText(annio + String.valueOf(n));
+        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -231,28 +225,34 @@ private void bt_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_bt_salirActionPerformed
 
 private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
-
+    
     try {
         if (validar()) {
-            String sql = "INSERT INTO sia_estudiantes values(INC_ESTUDIANTE_PK.NextVal, '" + txt_nombre.getText() + "','" + txt_apellidos.getText() + "', " + txt_telefono.getText() + "," + txt_identificacion.getText() + ",1,'" + txt_direccion.getText() + "'," + lbcodigo.getText() + " )";
-            //DataBaseOracle.Execute(sql);
-
-            sql = "select INC_CODIGO_ESTUDIANTE.NextVal from dual";
-            //ResultSet con = DataBaseOracle.Query(sql);
-//            while (con.next()) {
-//                con.getString(1);
-//            }
-            JOptionPane.showMessageDialog(this, "Nuevo Estudiante Guardado");
-            this.hide();
-
+            EstudianteDao db = new EstudianteDao();
+            Estudiante est = new Estudiante();
+            est.setNombres(txt_nombre.getText().toUpperCase());
+            est.setApellidos(txt_apellidos.getText().toUpperCase());
+            est.setTelefono(Integer.parseInt(txt_telefono.getText()));
+            est.setDireccion(txt_direccion.getText().toUpperCase());
+            est.setCod_matricula(Integer.parseInt(lbcodigo.getText()));
+            est.setIdentificacion(Integer.parseInt(txt_identificacion.getText()));
+            if (db.guardar(est) == 1) {
+                JOptionPane.showMessageDialog(this, "Nuevo Estudiante Guardado");
+                this.hide();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ocurrio error guardando", "Error", 2);
+            }
+            
         }
-    } catch (Exception de) {
+    } catch (HeadlessException de) {
+        System.err.println(de.getMessage());
+    } catch (NumberFormatException de) {
         System.err.println(de.getMessage());
     }
-
+    
 
 }//GEN-LAST:event_bt_salvarActionPerformed
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -279,11 +279,11 @@ private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             public void run() {
-
+                
                 new nuevo_estudiante().setVisible(true);
-
+                
             }
         });
     }
