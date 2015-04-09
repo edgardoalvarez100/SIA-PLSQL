@@ -2,6 +2,7 @@ package dao;
 
 
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 public class DataBaseOracle {
 
@@ -29,7 +30,7 @@ public class DataBaseOracle {
             conexion = DriverManager.getConnection(oracleURL, usuario, password);
 
         } catch (SQLException e) {
-            System.out.println("SQL Exception: " + e.toString());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Conexión Fallida", 2);
         } catch (java.lang.ClassNotFoundException ex) {
             System.err.print("Problemas al cargar el driver ");
             System.err.println(ex.getMessage());

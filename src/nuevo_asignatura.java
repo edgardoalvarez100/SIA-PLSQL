@@ -17,7 +17,7 @@ public class nuevo_asignatura extends javax.swing.JFrame {
 
     public void secuencia_codigo() {
         try {
-            ResultSet con=null;
+            ResultSet con = null;
             String sql = "SELECT LAST_NUMBER FROM user_sequences WHERE SEQUENCE_NAME = 'INC_ASIGNATURA_PK'";
             //con = DataBaseOracle.Query(sql);
             while (con.next()) {
@@ -258,19 +258,16 @@ private void htKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_htKeyTyp
 private void bt_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_guardarActionPerformed
     calcular_credito();
 
-    try {
-        if (validar()) {
-            AsignaturaDao db =new AsignaturaDao();
-            db.guardar(txt_descripcion.getText(), WIDTH, WIDTH, WIDTH, WIDTH, null);
-            
-
-           // DataBaseOracle.Execute(sql);
+    if (validar()) {
+        AsignaturaDao db = new AsignaturaDao();
+        int respuesta = db.guardar(txt_descripcion.getText(), Integer.parseInt(txt_credito.getText()), Integer.parseInt(ht.getText()), Integer.parseInt(hp.getText()), Integer.parseInt(hi.getText()), txt_tipo.getSelectedItem().toString());
+        if (respuesta == 1) {
             JOptionPane.showMessageDialog(this, "Nueva asignatura guardada");
             this.hide();
-
+        } else {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error guardando");
         }
-    } catch (HeadlessException de) {
-        System.err.println(de.getMessage());
+
     }
 
 
