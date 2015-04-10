@@ -1,9 +1,7 @@
 
 import beans.Asignatura;
 import dao.AsignaturaDao;
-import dao.DataBaseOracle;
 import javax.swing.*;
-import java.sql.*;
 
 public class eliminar_asignatura extends javax.swing.JFrame {
 

@@ -20,7 +20,7 @@ public class DataBaseOracle {
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
             //for one of Oracle drivers
-            url = "184.154.42.20";
+            url = "192.168.56.101";
             database = "XE";
             int port = 1521;
             String oracleURL = "jdbc:oracle:thin:@" + url + ":" + port + ":" + database;
