@@ -44,8 +44,6 @@ public class actualizar_asignatura extends javax.swing.JFrame {
         txt_codigo = new javax.swing.JTextField();
         bt_buscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         bt_calcular.setText("Calcular");
         bt_calcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +68,7 @@ public class actualizar_asignatura extends javax.swing.JFrame {
         jLabel9.setText("Credito");
 
         txt_credito.setEditable(false);
-        txt_credito.setFont(new java.awt.Font("Tahoma", 1, 11));
+        txt_credito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         hi.setEditable(false);
 
@@ -87,7 +85,7 @@ public class actualizar_asignatura extends javax.swing.JFrame {
 
         jLabel2.setText("Codigo");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Actualizar Asignatura");
 
         jLabel6.setText("Horas Practicas");

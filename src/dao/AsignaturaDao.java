@@ -27,7 +27,7 @@ public class AsignaturaDao extends DataBaseOracle {
         try {
             cst = con.prepareCall(sql);
             cst.setInt(1, codigo);
-            cst.registerOutParameter(2, OracleTypes.INTEGER);
+            cst.registerOutParameter(2, OracleTypes.CURSOR);
             cst.executeUpdate();
             rs = ((OracleCallableStatement) cst).getCursor(2);
             while(rs.next()){
@@ -58,10 +58,10 @@ public class AsignaturaDao extends DataBaseOracle {
             int hr_teorica, int hr_practica, int hr_indepen, String tipo) {
         int respuesta = 0;
         con = conectar();
-        String sql = "{call GUARDAR_ASIGNATURA(?,?,?,?,?,?,?)}";
+        String sql = "{call ACTUALIZAR_ASIGNATURA(?,?,?,?,?,?,?,?)}";
         try {
             cst = con.prepareCall(sql);
-            cst.setInt(1, creditos);
+            cst.setInt(1, codigo);           
             cst.setString(2, descripcion);
             cst.setInt(3, creditos);
             cst.setInt(4, hr_teorica);
@@ -69,6 +69,7 @@ public class AsignaturaDao extends DataBaseOracle {
             cst.setInt(6, hr_indepen);
             cst.setString(7, tipo);
             cst.registerOutParameter(8, OracleTypes.INTEGER);
+            System.out.println("asignatura");
             cst.executeUpdate();
             respuesta = cst.getInt(8);
 
