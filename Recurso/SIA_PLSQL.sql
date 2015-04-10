@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 100200
 File Encoding         : 65001
 
-Date: 2015-04-10 16:37:18
+Date: 2015-04-10 17:24:49
 */
 
 
@@ -38,7 +38,7 @@ NOCACHE
 -- ----------------------------
 -- Records of SIA_ASIGNATURAS
 -- ----------------------------
-INSERT INTO "SIA"."SIA_ASIGNATURAS" VALUES ('2', 'MATEMATICA 1', '1', '2', '2', '2', '4', 'A');
+INSERT INTO "SIA"."SIA_ASIGNATURAS" VALUES ('2', 'MATEMATICA 1', '0', '2', '2', '2', '4', 'B');
 INSERT INTO "SIA"."SIA_ASIGNATURAS" VALUES ('3', 'REDES 1', '1', '4', '2', '4', '6', 'B');
 INSERT INTO "SIA"."SIA_ASIGNATURAS" VALUES ('1', 'CALCULO VECTORIAL', '1', '4', '3', '3', '6', 'A');
 
@@ -210,6 +210,22 @@ FROM sia_estudiantes
 WHERE est_estado=1 and est_cod_matricula=codi;
 
 END BUSCAR_ESTUDIANTE_COD ;
+/
+
+-- ----------------------------
+-- Procedure structure for "SIA"."ELIMINAR_ASIGNATURA"
+-- ----------------------------
+CREATE OR REPLACE PROCEDURE "SIA"."ELIMINAR_ASIGNATURA" (
+cod_ma IN NUMBER,
+respuesta OUT NUMBER)
+AS
+BEGIN
+respuesta :=0;
+UPDATE SIA_ASIGNATURAS 
+SET ASI_ESTADO=0 
+WHERE ASI_ESTADO=1 AND ASI_CODIGO=cod_ma;
+respuesta :=1;
+END ELIMINAR_ASIGNATURA;
 /
 
 -- ----------------------------

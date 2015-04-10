@@ -19,11 +19,12 @@ public class AsignaturaDao extends DataBaseOracle {
     ResultSet rs;
     Connection con = null;
     CallableStatement cst;
+    String sql="";
 
     public Asignatura buscarPorId(int codigo) {
         Asignatura as = null;
         con = conectar();
-        String sql = "{call BUSCAR_ASIGNATURA(?,?)}";
+        sql = "{call BUSCAR_ASIGNATURA(?,?)}";
         try {
             cst = con.prepareCall(sql);
             cst.setInt(1, codigo);
@@ -58,7 +59,7 @@ public class AsignaturaDao extends DataBaseOracle {
             int hr_teorica, int hr_practica, int hr_indepen, String tipo) {
         int respuesta = 0;
         con = conectar();
-        String sql = "{call ACTUALIZAR_ASIGNATURA(?,?,?,?,?,?,?,?)}";
+        sql = "{call ACTUALIZAR_ASIGNATURA(?,?,?,?,?,?,?,?)}";
         try {
             cst = con.prepareCall(sql);
             cst.setInt(1, codigo);           
@@ -90,7 +91,7 @@ public class AsignaturaDao extends DataBaseOracle {
             int hr_teorica, int hr_practica, int hr_indepen, String tipo) {
         int respuesta = 0;
         con = conectar();
-        String sql = "{call GUARDAR_ASIGNATURA(?,?,?,?,?,?,?)}";
+        sql = "{call GUARDAR_ASIGNATURA(?,?,?,?,?,?,?)}";
         try {
             cst = con.prepareCall(sql);
             cst.registerOutParameter(7, OracleTypes.INTEGER);
@@ -102,6 +103,30 @@ public class AsignaturaDao extends DataBaseOracle {
             cst.setString(6, tipo);
             cst.executeUpdate();
             respuesta = cst.getInt(7);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return respuesta;
+    }
+    
+    public int eliminar(int codigo) {
+        int respuesta = 0;
+        con = conectar();
+        sql = "{call ELIMINAR_ASIGNATURA(?,?)}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.registerOutParameter(2, OracleTypes.INTEGER);
+            cst.setInt(1, codigo);                  
+            cst.executeUpdate();
+            respuesta = cst.getInt(2);
 
         } catch (SQLException ex) {
             Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
