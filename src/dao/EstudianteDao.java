@@ -100,6 +100,30 @@ public class EstudianteDao extends DataBaseOracle {
         return respuesta;
     }
 
+     public int eliminar(int codigo) {
+        int respuesta = 0;
+        con = conectar();
+        sql = "{call ELIMINAR_ESTUDIANTE(?,?)}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.registerOutParameter(2, OracleTypes.INTEGER);
+            cst.setInt(1, codigo);                  
+            cst.executeUpdate();
+            respuesta = cst.getInt(2);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return respuesta;
+    }
+    
     public Estudiante buscarPorCodigo(int codigo) {
         ResultSet rs = null;
         con = conectar();

@@ -1,6 +1,6 @@
 
-import dao.DataBaseOracle;
-import java.sql.*;
+import beans.Estudiante;
+import dao.EstudianteDao;
 import javax.swing.*;
 
 public class eliminar_estudiante extends javax.swing.JFrame {
@@ -217,37 +217,17 @@ private void bt_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscarActionPerformed
 // Buscar Estudiante por codigo matricula:
-    try {
-        boolean encontrado = false;
-        ResultSet con = null;
-
-        String sql = "SELECT * FROM sia_estudiantes WHERE est_estado=1 and est_cod_matricula=" + Integer.parseInt(txt_codigo.getText());
-        //con=DataBaseOracle.Query(sql);
-        String codigo = txt_codigo.getText();
-
-        while (con.next()) {
-            String codigo2 = con.getString("est_cod_matricula");
-
-            if (codigo.equals(codigo2)) {
-                encontrado = true;
-            }
-
-            if (encontrado == true) {
-                txt_nombre.setText(con.getString(2));
-                txt_apellidos.setText(con.getString(3));
-                txt_direccion.setText(con.getString(7));
-                txt_telefono.setText(con.getString(4));
-                txt_identificacion.setText(con.getString(5));
-            }
-
-        }
-        if (!encontrado) {
-            JOptionPane.showMessageDialog(this, "No se encontró ningún estudiante");
-
-        }
-        con.close();
-    } catch (Exception de) {
-        System.err.println(de.getMessage());
+    EstudianteDao estu = new EstudianteDao();
+    Estudiante estudiante;
+    estudiante = estu.buscarPorCodigo(Integer.valueOf(txt_codigo.getText()));
+    if (estudiante != null) {
+        txt_nombre.setText(estudiante.getNombres());
+        txt_apellidos.setText(estudiante.getApellidos());
+        txt_direccion.setText(estudiante.getDireccion());
+        txt_telefono.setText(String.valueOf(estudiante.getTelefono()));
+        txt_identificacion.setText(String.valueOf(estudiante.getIdentificacion()));
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontró ningún estudiante");
     }
 
 }//GEN-LAST:event_bt_buscarActionPerformed
@@ -256,10 +236,14 @@ private void bt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 // Eliminar Estudiante
     try {
 
-        String sql = "UPDATE SIA_ESTUDIANTES SET EST_ESTADO=0 where EST_COD_MATRICULA=" + txt_codigo.getText();
-        //DataBaseOracle.Execute(sql);
-        JOptionPane.showMessageDialog(this, "Eliminación Realizada con Exito");
-        this.hide();
+        EstudianteDao est = new EstudianteDao();
+        int respuesta = est.eliminar(Integer.parseInt(txt_codigo.getText()));
+        if (respuesta == 1) {
+            JOptionPane.showMessageDialog(this, "Eliminación Realizada con Exito");
+            this.hide();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error eliminando estudiante", "Error", 2);
+        }
 
     } catch (Exception de) {
         System.err.println(de.getMessage());
