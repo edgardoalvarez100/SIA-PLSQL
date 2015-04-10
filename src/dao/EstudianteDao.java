@@ -83,8 +83,7 @@ public class EstudianteDao extends DataBaseOracle {
             cst.setInt(3, estudiante.getTelefono());
             cst.setInt(4, estudiante.getIdentificacion());
             cst.setString(5, estudiante.getDireccion());
-            cst.setInt(6, estudiante.getCod_matricula());
-            System.out.println("nuevo estudiante "+ estudiante);
+            cst.setInt(6, estudiante.getCod_matricula());            
             cst.executeUpdate();
             respuesta = cst.getInt(7);
 
