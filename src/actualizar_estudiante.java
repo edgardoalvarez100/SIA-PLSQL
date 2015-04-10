@@ -1,42 +1,43 @@
 
-import dao.DataBaseOracle;
-import java.util.*;
-import java.sql.*;
+import beans.Estudiante;
+import dao.EstudianteDao;
+import java.awt.HeadlessException;
 import javax.swing.*;
+
 public class actualizar_estudiante extends javax.swing.JFrame {
 
-    /** Creates new form nuevo_estudiante */
+    /**
+     * Creates new form nuevo_estudiante
+     */
     public actualizar_estudiante() {
         initComponents();
-        
-        
-    }
-    public boolean validar(){
-       if(txt_nombre.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error ingresar nombre", "Error",1);
-        return false;
-    }
-    if(txt_apellidos.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar apellidos", "Error",1);
-        return false;
-    }
-     if(txt_identificacion.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar identificación", "Error",1);
-        return false;
-    }
-      if(txt_direccion.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar dirección", "Error",1);
-        return false;
-    }
-       if(txt_telefono.getText().equals("")){
-        JOptionPane.showMessageDialog(this,"Error debe ingresar dirección", "Error",1);
-        return false;
-    }
-    return true;
+
     }
 
-    
-    
+    public boolean validar() {
+        if (txt_nombre.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error ingresar nombre", "Error", 1);
+            return false;
+        }
+        if (txt_apellidos.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar apellidos", "Error", 1);
+            return false;
+        }
+        if (txt_identificacion.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar identificación", "Error", 1);
+            return false;
+        }
+        if (txt_direccion.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar dirección", "Error", 1);
+            return false;
+        }
+        if (txt_telefono.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Error debe ingresar dirección", "Error", 1);
+            return false;
+        }
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -223,59 +224,53 @@ private void bt_salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 private void bt_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_actualizarActionPerformed
 // Guardar Datos Nuevo Estudiante
-    try{
-       if (validar()){
-           String sql ="UPDATE SIA_ESTUDIANTES SET est_nombres='"+txt_nombre.getText()+"', est_apellidos='"+txt_apellidos.getText()+"', est_direccion='"+txt_direccion.getText()+"', est_telefono="+txt_telefono.getText()+", est_identificacion="+txt_identificacion.getText()+" where est_estado=1 and est_cod_matricula="+txt_codigo.getText();
-        //DataBaseOracle.Execute(sql);
-        JOptionPane.showMessageDialog(this, "Actualización Realizada con Exito");
-        this.hide();
-        
-    } 
-    }catch (Exception de) {
-            System.err.println(de.getMessage());
+    try {
+        if (validar()) {
+            EstudianteDao db = new EstudianteDao();
+            Estudiante estudiante = new Estudiante();
+            estudiante.setNombres(txt_nombre.getText().toUpperCase());
+            estudiante.setApellidos(txt_apellidos.getText().toUpperCase());
+            estudiante.setDireccion(txt_direccion.getText().toUpperCase());
+            estudiante.setTelefono(Integer.parseInt(txt_telefono.getText()));
+            estudiante.setIdentificacion(Integer.parseInt(txt_identificacion.getText()));
+            estudiante.setCod_matricula(Integer.parseInt(txt_codigo.getText()));
+            int respuesta = db.actualizar(estudiante);
+            if (respuesta == 1) {
+                JOptionPane.showMessageDialog(this, "Actualización Realizada con Exito");
+                this.hide();
+            }else{
+                JOptionPane.showMessageDialog(this, "Error actualizando estudiante", "Error",2);
+            }
+            
+
         }
-    
-    
+    } catch (HeadlessException de) {
+        System.err.println(de.getMessage());
+    }   catch (NumberFormatException de) {
+        System.err.println(de.getMessage());
+        }
+
+
 }//GEN-LAST:event_bt_actualizarActionPerformed
 
 private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscarActionPerformed
 
-    try{
-        boolean encontrado = false;
-        ResultSet con=null;
-        
-        String sql="SELECT * FROM sia_estudiantes WHERE est_estado=1 and est_cod_matricula="+Integer.parseInt(txt_codigo.getText());
-        //con=DataBaseOracle.Query(sql);
-        String codigo = txt_codigo.getText();
-        
-      while(con.next()){
-         String codigo2 =  con.getString("est_cod_matricula");
-           
-    if (codigo.equals(codigo2)){
-        encontrado=true;
-       }
-   
-    if(encontrado == true){
-          txt_nombre.setText(con.getString(2));
-          txt_apellidos.setText(con.getString(3));
-          txt_direccion.setText(con.getString(7));
-          txt_telefono.setText(con.getString(4));
-          txt_identificacion.setText(con.getString(5));
-                    }
-                    
-    }
-      if(!encontrado){
+    EstudianteDao estu = new EstudianteDao();
+    Estudiante estudiante;
+    estudiante = estu.buscarPorCodigo(Integer.valueOf(txt_codigo.getText()));
+    if (estudiante != null) {
+        txt_nombre.setText(estudiante.getNombres());
+        txt_apellidos.setText(estudiante.getApellidos());
+        txt_direccion.setText(estudiante.getDireccion());
+        txt_telefono.setText(String.valueOf(estudiante.getTelefono()));
+        txt_identificacion.setText(String.valueOf(estudiante.getIdentificacion()));
+    } else {
         JOptionPane.showMessageDialog(this, "No se encontró ningún estudiante");
-       
     }
-      con.close();
-    }catch (Exception de) {
-            System.err.println(de.getMessage());
-        }
-    
+
+
 }//GEN-LAST:event_bt_buscarActionPerformed
 
-   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -287,16 +282,21 @@ private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(nuevo_estudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(nuevo_estudiante.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(nuevo_estudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(nuevo_estudiante.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(nuevo_estudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(nuevo_estudiante.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(nuevo_estudiante.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(nuevo_estudiante.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -304,9 +304,9 @@ private void bt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-              
+
                 new actualizar_estudiante().setVisible(true);
-               
+
             }
         });
     }
