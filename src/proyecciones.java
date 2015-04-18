@@ -37,8 +37,7 @@ public class proyecciones extends javax.swing.JFrame {
                 txt_apellidos.setText(con.getString(6));
 
                 j++;
-            }//end while
-           // DefaultTableModel ob =new DefaultTableModel();
+            }//end while           
             DefaultTableModel dtm = new DefaultTableModel(data,titulos);
             tabla_proyeccion.setModel(dtm);
             con.close();

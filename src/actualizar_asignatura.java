@@ -1,10 +1,7 @@
 
 import beans.Asignatura;
 import dao.AsignaturaDao;
-import dao.DataBaseOracle;
-import java.awt.HeadlessException;
 import javax.swing.*;
-import java.sql.*;
 
 public class actualizar_asignatura extends javax.swing.JFrame {
 
