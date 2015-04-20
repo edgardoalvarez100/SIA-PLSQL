@@ -1,6 +1,9 @@
 
 import beans.Asignatura;
+import beans.Estudiante;
 import dao.AsignaturaDao;
+import dao.EstudianteDao;
+import dao.ProyeccionDao;
 import java.awt.HeadlessException;
 import javax.swing.table.*;
 import java.sql.*;
@@ -37,10 +40,10 @@ public class anadir_proyeccion extends javax.swing.JFrame {
         List<Asignatura> lista;
 
         int j = 0, total1 = 0;
-        
+
         AsignaturaDao db = new AsignaturaDao();
         total1 = db.cantidad();
-        
+
         Object[][] data = new Object[total1][4];
         lista = db.buscarPorNombre(nombre);
         Iterator<Asignatura> i = lista.iterator();
@@ -54,35 +57,27 @@ public class anadir_proyeccion extends javax.swing.JFrame {
         tabla.setModel(dtm);
     }
 
-    public void buscarDatosEstudiantes(String SQL) {
+    public void buscarDatosEstudiantes(String nombre) {
         String titulos[] = {"Codigo", "Nombres", "Apellidos"};
-
-        int j, total1 = 0;
-        ResultSet con = null;
-        try {
-
-            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes where est_estado=1");
-            if (con.next()) {
-                total1 = con.getInt(1);
-            }
-            Object[][] data = new Object[total1][4];
-
-            //con=DataBaseOracle.Query(SQL);
-            j = 0;
-            while (con.next()) {
-                data[j][0] = con.getString("est_cod_matricula");//codigo
-                data[j][1] = con.getString(2);//Nombre
-                data[j][2] = con.getString(3);//Apellidos
-
-                j++;
-            }//end while
-            // DefaultTableModel ob =new DefaultTableModel();
-            DefaultTableModel dtm = new DefaultTableModel(data, titulos);
-            tabla_estudiantes.setModel(dtm);
-            con.close();
-        } catch (SQLException exc) {
-            System.err.println(exc.getMessage());
+        int j = 0, total1 = 0;        
+        Estudiante estudiante = null;
+        List<Estudiante> lista = null;
+        
+        EstudianteDao es = new EstudianteDao();
+        lista = es.buscarPorNombre(nombre);
+        Iterator<Estudiante> i = lista.iterator();
+        total1 = lista.iterator().next().getTelefono();
+        Object[][] data = new Object[total1][4];
+        
+        while (i.hasNext()) {
+            estudiante = i.next();
+            data[j][0] = estudiante.getCod_matricula();
+            data[j][1] = estudiante.getNombres();
+            data[j][2] = estudiante.getApellidos();
+            j++;
         }
+        DefaultTableModel dtm = new DefaultTableModel(data, titulos);
+        tabla_estudiantes.setModel(dtm);
     }
 
     @SuppressWarnings("unchecked")
@@ -397,7 +392,7 @@ private void btaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void tablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMousePressed
 
     int i = tabla.getSelectedRow();
-    String dato = (String) tabla.getValueAt(i, 0);//codigo
+    String dato = tabla.getValueAt(i, 0).toString();//codigo
     txt_codigo_asignatura.setText(dato);
 
 }//GEN-LAST:event_tablaMousePressed
@@ -415,7 +410,7 @@ private void buscarAsignaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     fr_asignatura.setLocationRelativeTo(null);
     fr_asignatura.setSize(400, 301);
     fr_asignatura.setVisible(true);
-   
+
     buscarDatosAsignatura(txt_buscar.getText().toUpperCase());
 }//GEN-LAST:event_buscarAsignaActionPerformed
 
@@ -423,13 +418,14 @@ private void bt_anadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
     try {
         if (validar()) {
-            String sql = "INSERT INTO sia_proyecciones values(" + txt_codigo_asignatura.getText() + ", INC_PROYECCION_PK.NextVal, 1, (SELECT est_codigo FROM sia_estudiantes WHERE est_cod_matricula=" + txt_codigo_estudiante.getText() + " AND est_estado=1))";
-            //DataBaseOracle.Execute(sql);
-
-            sql = "INSERT INTO sia_notas VALUES(INC_NOTAS_PK.NextVal, NULL, NULL, NULL, (SELECT LAST_NUMBER-1 FROM user_sequences WHERE SEQUENCE_NAME = 'INC_PROYECCION_PK'), NULL)";
-            //DataBaseOracle.Execute(sql);
-            JOptionPane.showMessageDialog(this, "Asignatura Añadida");
-            this.hide();
+            ProyeccionDao db = new ProyeccionDao();
+            int res = db.guardar(Integer.parseInt(txt_codigo_estudiante.getText()), Integer.parseInt(txt_codigo_asignatura.getText()));
+            if (res == 1) {
+                JOptionPane.showMessageDialog(this, "Asignatura Añadida");
+                this.hide();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error guardando", "Error", 2);
+            }
 
         }
     } catch (HeadlessException de) {
@@ -452,13 +448,7 @@ private void txt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_txt_buscar_estActionPerformed
 
 private void txt_buscar_estKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscar_estKeyPressed
-    String sql;
-    if (!txt_buscar_est.getText().equals("")) {
-        sql = "SELECT est_cod_matricula, UPPER(est_nombres), UPPER(est_apellidos) FROM sia_estudiantes WHERE est_nombres LIKE '%" + txt_buscar_est.getText() + "%' AND est_estado=1";
-    } else {
-        sql = "SELECT est_cod_matricula, UPPER(est_nombres), UPPER(est_apellidos) FROM sia_estudiantes WHERE est_estado=1";
-    }
-    buscarDatosEstudiantes(sql);
+    buscarDatosEstudiantes(txt_buscar_est.getText());
 }//GEN-LAST:event_txt_buscar_estKeyPressed
 
 private void bt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_estActionPerformed

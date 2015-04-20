@@ -1,10 +1,13 @@
 package dao;
 
+import beans.Asignatura;
 import beans.Estudiante;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import oracle.jdbc.OracleCallableStatement;
@@ -19,6 +22,7 @@ public class EstudianteDao extends DataBaseOracle {
     Connection con = null;
     CallableStatement cst;
     String sql = "";
+    ResultSet rs;
 
     public int ultima_secuencia() {
         int respuesta = 0;
@@ -159,4 +163,38 @@ public class EstudianteDao extends DataBaseOracle {
         return est;
     }
 
+    public List<Estudiante> buscarPorNombre(String nombre) {
+        List<Estudiante> lista=null;
+        Estudiante as = null;
+        con = conectar();
+        sql = "{call BUSCAR_ESTUDIANTE_NOMBRE(?,?)}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.setString(1, nombre);
+            cst.registerOutParameter(2, OracleTypes.CURSOR);
+            cst.executeUpdate();
+            rs = ((OracleCallableStatement) cst).getCursor(2);
+            lista= new ArrayList<Estudiante>();
+            while (rs.next()) {
+                as = new Estudiante();
+                as.setCod_matricula(rs.getInt("est_cod_matricula"));                
+                as.setNombres(rs.getString("est_nombres"));
+                as.setApellidos(rs.getString("est_apellidos"));
+                as.setTelefono(rs.getInt("contador"));//contador de tuplas, usado para grilla de busqueda
+                lista.add(as);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
+        return lista;
+    }
+    
 }
