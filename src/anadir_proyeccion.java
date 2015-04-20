@@ -6,7 +6,6 @@ import dao.EstudianteDao;
 import dao.ProyeccionDao;
 import java.awt.HeadlessException;
 import javax.swing.table.*;
-import java.sql.*;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -66,11 +65,11 @@ public class anadir_proyeccion extends javax.swing.JFrame {
         EstudianteDao es = new EstudianteDao();
         lista = es.buscarPorNombre(nombre);
         Iterator<Estudiante> i = lista.iterator();
-        total1 = lista.iterator().next().getTelefono();
+        total1 = es.cantidadPorNombre(nombre);        
         Object[][] data = new Object[total1][4];
         
         while (i.hasNext()) {
-            estudiante = i.next();
+            estudiante = i.next();           
             data[j][0] = estudiante.getCod_matricula();
             data[j][1] = estudiante.getNombres();
             data[j][2] = estudiante.getApellidos();
@@ -439,7 +438,7 @@ private void bt_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 private void tabla_estudiantesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_estudiantesMousePressed
     int i = tabla_estudiantes.getSelectedRow();
-    String dato = (String) tabla_estudiantes.getValueAt(i, 0);//codigo
+    String dato = tabla_estudiantes.getValueAt(i, 0).toString();//codigo
     txt_codigo_estudiante.setText(dato);
 }//GEN-LAST:event_tabla_estudiantesMousePressed
 
@@ -448,7 +447,7 @@ private void txt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_txt_buscar_estActionPerformed
 
 private void txt_buscar_estKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscar_estKeyPressed
-    buscarDatosEstudiantes(txt_buscar_est.getText());
+    buscarDatosEstudiantes(txt_buscar_est.getText().toUpperCase());
 }//GEN-LAST:event_txt_buscar_estKeyPressed
 
 private void bt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_estActionPerformed

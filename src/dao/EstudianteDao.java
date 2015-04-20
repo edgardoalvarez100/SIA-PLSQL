@@ -1,6 +1,5 @@
 package dao;
 
-import beans.Asignatura;
 import beans.Estudiante;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -127,7 +126,29 @@ public class EstudianteDao extends DataBaseOracle {
 
         return respuesta;
     }
-    
+      public int cantidadPorNombre(String nombre) {
+        int respuesta = 0;
+        con = conectar();
+        sql = "{call CANTIDAD_ESTUDIANTE_NOMBRE(?,?)}";
+        try {
+            cst = con.prepareCall(sql);            
+            cst.setString(1, nombre);
+            cst.registerOutParameter(2, OracleTypes.INTEGER);
+            cst.executeUpdate();
+            respuesta = cst.getInt(2);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return respuesta;
+    }
     public Estudiante buscarPorCodigo(int codigo) {
         ResultSet rs = null;
         con = conectar();
@@ -180,7 +201,7 @@ public class EstudianteDao extends DataBaseOracle {
                 as.setCod_matricula(rs.getInt("est_cod_matricula"));                
                 as.setNombres(rs.getString("est_nombres"));
                 as.setApellidos(rs.getString("est_apellidos"));
-                as.setTelefono(rs.getInt("contador"));//contador de tuplas, usado para grilla de busqueda
+                as.setTelefono(rs.getInt(4));//contador de tuplas, usado para grilla de busqueda
                 lista.add(as);
             }
 

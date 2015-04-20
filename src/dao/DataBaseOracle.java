@@ -1,6 +1,5 @@
 package dao;
 
-
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -38,9 +37,9 @@ public class DataBaseOracle {
 
         return conexion;
     }
-    
- public synchronized void desconectarBD(Connection con) throws SQLException {
-                if (con != null) {
+
+    public synchronized void desconectarBD(Connection con) throws SQLException {
+        if (con != null) {
             con.close();
         }
     }
