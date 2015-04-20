@@ -1,6 +1,11 @@
+
+import beans.Asignatura;
+import dao.AsignaturaDao;
 import java.awt.HeadlessException;
 import javax.swing.table.*;
 import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class anadir_proyeccion extends javax.swing.JFrame {
@@ -26,34 +31,27 @@ public class anadir_proyeccion extends javax.swing.JFrame {
         return true;
     }
 
-    public void buscarDatosAsignatura(String SQL) {
+    public void buscarDatosAsignatura(String nombre) {
         String titulos[] = {"Codigo", "Asignatura"};
+        Asignatura asignatura = null;
+        List<Asignatura> lista;
 
-        int j, total1 = 0;
-        ResultSet con = null;
-        try {
-
-            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM  sia_asignaturas a WHERE a.asi_estado=1");
-            if (con.next()) {
-                total1 = con.getInt(1);
-            }
-            Object[][] data = new Object[total1][4];
-
-            // con=DataBaseOracle.Query(SQL);
-            j = 0;
-            while (con.next()) {
-                data[j][0] = con.getString(1);//codigo
-                data[j][1] = con.getString(2);//Nombre
-
-                j++;
-            }//end while
-            // DefaultTableModel ob =new DefaultTableModel();
-            DefaultTableModel dtm = new DefaultTableModel(data, titulos);
-            tabla.setModel(dtm);
-            con.close();
-        } catch (SQLException exc) {
-            System.err.println(exc.getMessage());
+        int j = 0, total1 = 0;
+        
+        AsignaturaDao db = new AsignaturaDao();
+        total1 = db.cantidad();
+        
+        Object[][] data = new Object[total1][4];
+        lista = db.buscarPorNombre(nombre);
+        Iterator<Asignatura> i = lista.iterator();
+        while (i.hasNext()) {
+            asignatura = i.next();
+            data[j][0] = asignatura.getIdAsigntaura();
+            data[j][1] = asignatura.getNombre();
+            j++;
         }
+        DefaultTableModel dtm = new DefaultTableModel(data, titulos);
+        tabla.setModel(dtm);
     }
 
     public void buscarDatosEstudiantes(String SQL) {
@@ -109,7 +107,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
         txt_codigo_estudiante = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        buscarAsigna = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         bt_anadir = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -163,7 +161,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Verdana", 1, 24));
+        jLabel8.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jLabel8.setText("Asignaturas");
 
         javax.swing.GroupLayout fr_asignaturaLayout = new javax.swing.GroupLayout(fr_asignatura.getContentPane());
@@ -252,7 +250,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Verdana", 1, 24));
+        jLabel10.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jLabel10.setText("Estudiantes");
 
         javax.swing.GroupLayout fr_estudiantesLayout = new javax.swing.GroupLayout(fr_estudiantes.getContentPane());
@@ -298,14 +296,14 @@ public class anadir_proyeccion extends javax.swing.JFrame {
 
         jLabel2.setText("Codigo Asignatura");
 
-        jButton1.setText("...");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buscarAsigna.setText("...");
+        buscarAsigna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buscarAsignaActionPerformed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setText("Nueva Proyección");
 
         bt_anadir.setText("Añadir");
@@ -357,7 +355,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txt_codigo_asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(buscarAsigna, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -365,7 +363,6 @@ public class anadir_proyeccion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
@@ -381,7 +378,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(txt_codigo_asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
+                    .addComponent(buscarAsigna))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
@@ -411,27 +408,16 @@ private void txt_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 private void txt_buscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscarKeyPressed
 
-    String sql;
-    if (!txt_buscar.getText().equals("")) {
-        sql = "SELECT asi_codigo,  UPPER(asi_nombre) FROM sia_asignaturas WHERE asi_nombre LIKE '" + txt_buscar.getText() + "%' AND asi_estado=1";
-    } else {
-        sql = "SELECT asi_codigo,  UPPER(asi_nombre) FROM sia_asignaturas WHERE asi_estado=1";
-    }
-    buscarDatosAsignatura(sql);
+    buscarDatosAsignatura(txt_buscar.getText().toUpperCase());
 }//GEN-LAST:event_txt_buscarKeyPressed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void buscarAsignaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAsignaActionPerformed
     fr_asignatura.setLocationRelativeTo(null);
     fr_asignatura.setSize(400, 301);
     fr_asignatura.setVisible(true);
-    String sql;
-    if (!txt_buscar.getText().equals("")) {
-        sql = "SELECT asi_codigo,  UPPER(asi_nombre) FROM sia_asignaturas WHERE asi_nombre LIKE '" + txt_buscar.getText() + "%' AND asi_estado=1";
-    } else {
-        sql = "SELECT asi_codigo,  UPPER(asi_nombre) FROM sia_asignaturas WHERE asi_estado=1";
-    }
-    buscarDatosAsignatura(sql);
-}//GEN-LAST:event_jButton1ActionPerformed
+   
+    buscarDatosAsignatura(txt_buscar.getText().toUpperCase());
+}//GEN-LAST:event_buscarAsignaActionPerformed
 
 private void bt_anadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_anadirActionPerformed
 
@@ -525,9 +511,9 @@ private void bt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JButton bt_anadir;
     private javax.swing.JButton bt_buscar_est;
     private javax.swing.JButton btaceptar;
+    private javax.swing.JButton buscarAsigna;
     private javax.swing.JFrame fr_asignatura;
     private javax.swing.JFrame fr_estudiantes;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

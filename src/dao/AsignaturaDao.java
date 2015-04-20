@@ -5,6 +5,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import oracle.jdbc.OracleCallableStatement;
@@ -19,7 +21,7 @@ public class AsignaturaDao extends DataBaseOracle {
     ResultSet rs;
     Connection con = null;
     CallableStatement cst;
-    String sql="";
+    String sql = "";
 
     public Asignatura buscarPorId(int codigo) {
         Asignatura as = null;
@@ -31,7 +33,7 @@ public class AsignaturaDao extends DataBaseOracle {
             cst.registerOutParameter(2, OracleTypes.CURSOR);
             cst.executeUpdate();
             rs = ((OracleCallableStatement) cst).getCursor(2);
-            while(rs.next()){
+            while (rs.next()) {
                 as = new Asignatura();
                 as.setIdAsigntaura(codigo);
                 as.setCreditos(rs.getInt("asi_creditos"));
@@ -39,7 +41,7 @@ public class AsignaturaDao extends DataBaseOracle {
                 as.setHoras_practicas(rs.getInt("asi_horas_practicas"));
                 as.setHoras_teoricas(rs.getInt("asi_horas_teoricas"));
                 as.setTipo(rs.getString("asi_tipo"));
-                as.setNombre(rs.getString("asi_nombre"));                
+                as.setNombre(rs.getString("asi_nombre"));
             }
 
         } catch (SQLException ex) {
@@ -55,6 +57,38 @@ public class AsignaturaDao extends DataBaseOracle {
         return as;
     }
 
+    public List<Asignatura> buscarPorNombre(String nombre) {
+        List<Asignatura> lista=null;
+        Asignatura as = null;
+        con = conectar();
+        sql = "{call BUSCAR_ASIGNATURA_NOMBRE(?,?)}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.setString(1, nombre);
+            cst.registerOutParameter(2, OracleTypes.CURSOR);
+            cst.executeUpdate();
+            rs = ((OracleCallableStatement) cst).getCursor(2);
+            lista= new ArrayList<Asignatura>();
+            while (rs.next()) {
+                as = new Asignatura();
+                as.setIdAsigntaura(rs.getInt("asi_codigo"));                
+                as.setNombre(rs.getString("asi_nombre"));
+                lista.add(as);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
+        return lista;
+    }
+    
     public int actualizar(int codigo, String descripcion, int creditos,
             int hr_teorica, int hr_practica, int hr_indepen, String tipo) {
         int respuesta = 0;
@@ -62,7 +96,7 @@ public class AsignaturaDao extends DataBaseOracle {
         sql = "{call ACTUALIZAR_ASIGNATURA(?,?,?,?,?,?,?,?)}";
         try {
             cst = con.prepareCall(sql);
-            cst.setInt(1, codigo);           
+            cst.setInt(1, codigo);
             cst.setString(2, descripcion);
             cst.setInt(3, creditos);
             cst.setInt(4, hr_teorica);
@@ -116,7 +150,7 @@ public class AsignaturaDao extends DataBaseOracle {
 
         return respuesta;
     }
-    
+
     public int eliminar(int codigo) {
         int respuesta = 0;
         con = conectar();
@@ -124,7 +158,7 @@ public class AsignaturaDao extends DataBaseOracle {
         try {
             cst = con.prepareCall(sql);
             cst.registerOutParameter(2, OracleTypes.INTEGER);
-            cst.setInt(1, codigo);                  
+            cst.setInt(1, codigo);
             cst.executeUpdate();
             respuesta = cst.getInt(2);
 
@@ -163,4 +197,26 @@ public class AsignaturaDao extends DataBaseOracle {
         return respuesta;
     }
 
+    public int cantidad() {
+        int respuesta = 0;
+        con = conectar();
+        String sql = "{call CANTIDAD_ASIGNATURA(?)}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.registerOutParameter(1, OracleTypes.NUMERIC);
+            cst.executeUpdate();
+            respuesta = cst.getInt(1);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return respuesta;
+
+    }
 }
