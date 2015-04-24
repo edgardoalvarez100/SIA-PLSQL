@@ -106,6 +106,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
         bt_anadir = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         bt_buscar_est = new javax.swing.JButton();
+        bt_anadir_otra = new javax.swing.JButton();
 
         btaceptar.setText("Aceptar");
         btaceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -300,7 +301,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setText("Nueva Proyección");
 
-        bt_anadir.setText("Añadir");
+        bt_anadir.setText("Guardar");
         bt_anadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bt_anadirActionPerformed(evt);
@@ -321,6 +322,13 @@ public class anadir_proyeccion extends javax.swing.JFrame {
             }
         });
 
+        bt_anadir_otra.setText("Guardar y Agregar Otra");
+        bt_anadir_otra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_anadir_otraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -328,35 +336,37 @@ public class anadir_proyeccion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_codigo_estudiante, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(bt_anadir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_buscar_est, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(bt_anadir_otra)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel3))
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txt_codigo_asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(buscarAsigna, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(bt_anadir)
+                                .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_codigo_asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(buscarAsigna, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(35, Short.MAX_VALUE))
+                                .addComponent(txt_codigo_estudiante, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bt_buscar_est, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(13, 13, 13)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
@@ -364,7 +374,7 @@ public class anadir_proyeccion extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txt_codigo_estudiante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(bt_buscar_est)))
-                .addGap(6, 6, 6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(4, 4, 4)
@@ -373,11 +383,12 @@ public class anadir_proyeccion extends javax.swing.JFrame {
                         .addGap(1, 1, 1)
                         .addComponent(txt_codigo_asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(buscarAsigna))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(bt_anadir))
-                .addGap(28, 28, 28))
+                    .addComponent(bt_anadir)
+                    .addComponent(bt_anadir_otra)
+                    .addComponent(jButton3))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -460,6 +471,24 @@ private void bt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         this.hide();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void bt_anadir_otraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_anadir_otraActionPerformed
+        try {
+        if (validar()) {
+            ProyeccionDao db = new ProyeccionDao();
+            int res = db.guardar(Integer.parseInt(txt_codigo_estudiante.getText()), Integer.parseInt(txt_codigo_asignatura.getText()));
+            if (res == 1) {
+                JOptionPane.showMessageDialog(this, "Asignatura Añadida");
+                txt_codigo_asignatura.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error guardando", "Error", 2);
+            }
+
+        }
+    } catch (HeadlessException de) {
+        System.err.println(de.getMessage());
+    }
+    }//GEN-LAST:event_bt_anadir_otraActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -498,6 +527,7 @@ private void bt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_aceptar;
     private javax.swing.JButton bt_anadir;
+    private javax.swing.JButton bt_anadir_otra;
     private javax.swing.JButton bt_buscar_est;
     private javax.swing.JButton btaceptar;
     private javax.swing.JButton buscarAsigna;
