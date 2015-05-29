@@ -1,53 +1,50 @@
-import dao.DataBaseOracle;
+
+import beans.Proyeccion;
+import dao.ProyeccionDao;
 import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
 
 public class proyecciones extends javax.swing.JFrame {
 
-    /** Creates new form proyecciones */
+    /**
+     * Creates new form proyecciones
+     */
     public proyecciones() {
         initComponents();
     }
 
-    public void buscarDatosProyecciones(String SQL)    {
-       String titulos[]={"Codigo","Asignatura ","Creditos", "Nota Definitiva"};
+    public void buscarDatosProyecciones(int codigo) {
+        String titulos[] = {"Codigo", "Asignatura ", "Creditos", "Nota Definitiva"};
+        List<Proyeccion> lista = null;
+        Proyeccion proyec;
+        int j, total1 = 0;
+        ResultSet con = null;
 
-        int j,total1=0;
-        ResultSet con=null;
-        try
-        {
+        ProyeccionDao db = new ProyeccionDao();
+        lista = db.buscarPorCodMatricula(codigo);
+        total1 = db.contadorProyeccionCodMatricula(codigo);
+        Object[][] data = new Object[total1][4];
 
-            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes e, sia_proyecciones p WHERE e.est_codigo=p.est_codigo and e.est_estado=1 and p.pro_estado=1");
-            if(con.next())
-            {
-              total1=con.getInt(1);
-            }
-            Object [][] data = new Object[total1][4];
-
-           // con=DataBaseOracle.Query(SQL);
-            j=0;
-            while(con.next())
-            {
-                data[j][0]=con.getString("asi_codigo");//codigo
-                data[j][1]=con.getString(2);//Nombre
-                data[j][2]=con.getString(3);//Apellidos
-                data[j][3]=con.getString(4);//Nota Definitiva
-                txt_nombre.setText(con.getString(5));
-                txt_apellidos.setText(con.getString(6));
-
-                j++;
-            }//end while           
-            DefaultTableModel dtm = new DefaultTableModel(data,titulos);
-            tabla_proyeccion.setModel(dtm);
-            con.close();
+        Iterator<Proyeccion> i = lista.iterator();
+        j = 0;
+        while (i.hasNext()) {
+            proyec = i.next();
+            data[j][0] = proyec.getAsigntura().getIdAsigntaura();
+            data[j][1] = proyec.getAsigntura().getNombre();
+            proyec.getAsigntura().getCreditos();
+            proyec.getNota().getDefinitiva();
+            txt_nombre.setText(proyec.getEstudiante().getNombres());
+            txt_apellidos.setText(proyec.getEstudiante().getApellidos());
+            j++;
         }
-        catch(SQLException exc)
-        {
-           System.err.println(exc.getMessage());
-         }
+        DefaultTableModel dtm = new DefaultTableModel(data, titulos);
+        tabla_proyeccion.setModel(dtm);
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -196,31 +193,25 @@ public class proyecciones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
- anadir_proyeccion g = new anadir_proyeccion();
-     g.setLocationRelativeTo(null);
-     g.setVisible(true);
+    anadir_proyeccion g = new anadir_proyeccion();
+    g.setLocationRelativeTo(null);
+    g.setVisible(true);
 }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 private void bt_buscar_proyeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_proyeccionActionPerformed
-        String sql;
-        if(!txt_codigo.getText().equals("")){
-            sql="SELECT a.asi_codigo, a.asi_nombre, a.asi_creditos, NVL(n.not_definitiva, 0), e.est_nombres, e.est_apellidos "+
-                "FROM sia_asignaturas a "
-              + "INNER JOIN sia_proyecciones p ON a.asi_codigo=p.asi_codigo "+
-                "INNER JOIN sia_estudiantes e ON p.est_codigo=e.est_codigo "
-              + "INNER JOIN sia_notas n ON p.pro_codigo=n.pro_codigo "+
-                "WHERE e.est_cod_matricula="+txt_codigo.getText()+""
-             + " AND a.asi_estado=1 AND p.pro_estado=1 AND e.est_estado=1";
-            buscarDatosProyecciones(sql);
-        } else
-            JOptionPane.showMessageDialog(this, "Escriba el codigo del estudiante");
-        
+    String sql;
+    if (!txt_codigo.getText().equals("")) {
+        buscarDatosProyecciones(Integer.parseInt(txt_codigo.getText()));
+    } else {
+        JOptionPane.showMessageDialog(this, "Escriba el codigo del estudiante");
+    }
+
 }//GEN-LAST:event_bt_buscar_proyeccionActionPerformed
 
 private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
- eliminar_proyeccion g = new eliminar_proyeccion();
-     g.setLocationRelativeTo(null);
-     g.setVisible(true);
+    eliminar_proyeccion g = new eliminar_proyeccion();
+    g.setLocationRelativeTo(null);
+    g.setVisible(true);
 }//GEN-LAST:event_jMenuItem3ActionPerformed
 
 private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

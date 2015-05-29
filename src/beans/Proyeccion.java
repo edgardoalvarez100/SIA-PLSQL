@@ -1,7 +1,5 @@
 package beans;
 
-import java.util.List;
-
 /**
  *
  * @author EAlvarez
@@ -12,6 +10,7 @@ public class Proyeccion {
     Asignatura asigntura;
     Estudiante estudiante;
     int estado;
+    Nota nota;
 
     @Override
     public int hashCode() {
@@ -70,6 +69,14 @@ public class Proyeccion {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    public Nota getNota() {
+        return nota;
+    }
+
+    public void setNota(Nota nota) {
+        this.nota = nota;
     }
 
 }

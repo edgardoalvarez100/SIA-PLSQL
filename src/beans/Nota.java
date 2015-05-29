@@ -18,6 +18,13 @@ public class Nota {
     Proyeccion proyeccion;
     double definitiva;
 
+    public Nota(int idNota, double definitiva) {
+        this.idNota = idNota;
+        this.definitiva = definitiva;
+    }
+
+    
+    
     public int getIdNota() {
         return idNota;
     }
