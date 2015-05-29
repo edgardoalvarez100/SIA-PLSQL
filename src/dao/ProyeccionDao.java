@@ -53,7 +53,7 @@ public class ProyeccionDao extends DataBaseOracle {
     public List<Proyeccion> buscarPorCodMatricula(int cod_estudiante) {
         List<Proyeccion> lista = null;
         Proyeccion pro = null;
-
+        Estudiante estu = null;
         Asignatura as = null;
         con = conectar();
         sql = "{call BUSCAR_PROY_COD_MATRICU(?,?)}";
@@ -71,9 +71,12 @@ public class ProyeccionDao extends DataBaseOracle {
                 as.setIdAsigntaura(rs.getInt("asi_codigo"));
                 as.setNombre(rs.getString("asi_nombre"));
                 as.setCreditos(rs.getInt("asi_creditos"));
-                pro.setIdProyeccion(rs.getInt("pro_codigo"));
-                pro.setNota(new Nota(rs.getInt("not_codigo"), rs.getDouble("not_definitiva")));
+                pro.setNota(new Nota(rs.getInt("not_codigo"), rs.getDouble("definitiva")));
                 pro.setAsigntura(as);
+                estu = new Estudiante();
+                estu.setNombres(rs.getString("est_nombres"));
+                estu.setApellidos(rs.getString("est_apellidos"));
+                pro.setEstudiante(estu);
                 lista.add(pro);
             }
         } catch (SQLException ex) {
@@ -91,7 +94,6 @@ public class ProyeccionDao extends DataBaseOracle {
     public List<Proyeccion> buscarPorEstudiante(int cod_estudiante) {
         List<Proyeccion> lista = null;
         Proyeccion pro = null;
-        Estudiante estu=null;
         Asignatura as = null;
         con = conectar();
         sql = "{call BUSCAR_PROYECCION(?,?)}";
@@ -111,10 +113,6 @@ public class ProyeccionDao extends DataBaseOracle {
                 as.setCreditos(rs.getInt("asi_creditos"));
                 pro.setIdProyeccion(rs.getInt("pro_codigo"));
                 pro.setAsigntura(as);
-                estu = new Estudiante();
-                estu.setNombres(rs.getString("est_nombres"));
-                estu.setApellidos(rs.getString("est_apellidos"));
-                pro.setEstudiante(estu);
                 lista.add(pro);
             }
 
@@ -133,7 +131,7 @@ public class ProyeccionDao extends DataBaseOracle {
     }
 
     public int contadorProyeccionCodMatricula(int codigo) {
-          int respuesta = 0;
+        int respuesta = 0;
         con = conectar();
         sql = "{call CANTIDAD_PROYEC_CODMATRI(?,?)}";
         try {

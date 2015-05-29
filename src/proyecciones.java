@@ -34,8 +34,8 @@ public class proyecciones extends javax.swing.JFrame {
             proyec = i.next();
             data[j][0] = proyec.getAsigntura().getIdAsigntaura();
             data[j][1] = proyec.getAsigntura().getNombre();
-            proyec.getAsigntura().getCreditos();
-            proyec.getNota().getDefinitiva();
+            data[j][2] =proyec.getAsigntura().getCreditos();
+            data[j][3] =proyec.getNota().getDefinitiva();
             txt_nombre.setText(proyec.getEstudiante().getNombres());
             txt_apellidos.setText(proyec.getEstudiante().getApellidos());
             j++;
