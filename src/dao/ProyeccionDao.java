@@ -1,12 +1,16 @@
 package dao;
 
+import beans.Asignatura;
 import beans.Proyeccion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import oracle.jdbc.OracleCallableStatement;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -33,12 +37,12 @@ public class ProyeccionDao extends DataBaseOracle {
             respuesta = cst.getInt(3);
 
         } catch (SQLException ex) {
-            Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProyeccionDao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 desconectarBD(con);
             } catch (SQLException ex) {
-                Logger.getLogger(AsignaturaDao.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ProyeccionDao.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -46,14 +50,69 @@ public class ProyeccionDao extends DataBaseOracle {
 
     }
 
-    public int actualizar(Proyeccion proyeccion) {
-        return 0;
+    public List<Proyeccion> buscarPorEstudiante(int cod_estudiante) {
+        List<Proyeccion> lista = null;
+        Proyeccion pro=null;
+        
+        Asignatura as = null;
+        con = conectar();
+        sql = "{call BUSCAR_PROYECCION(?,?)}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.setInt(1, cod_estudiante);
+            cst.registerOutParameter(2, OracleTypes.CURSOR);
+            cst.executeUpdate();
+            rs = ((OracleCallableStatement) cst).getCursor(2);
+            lista = new ArrayList<Proyeccion>();
+            
+            while (rs.next()) {
+                pro = new Proyeccion();
+                as = new Asignatura();
+                as.setIdAsigntaura(rs.getInt("asi_codigo"));
+                as.setNombre(rs.getString("asi_nombre"));
+                as.setCreditos(rs.getInt("asi_creditos"));
+                pro.setIdProyeccion(rs.getInt("pro_codigo"));                
+                pro.setAsigntura(as);
+                lista.add(pro);
+            }
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyeccionDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(ProyeccionDao.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
+        return lista;
 
     }
 
     public int eliminar(int idProyeccion) {
-        return 0;
+          int respuesta = 0;
+        con = conectar();
+        sql = "{call ELIMINAR_PROYECCION(?,?)}";
+        try {
+            cst = con.prepareCall(sql);
+            cst.registerOutParameter(2, OracleTypes.INTEGER);
+            cst.setInt(1, idProyeccion);                  
+            cst.executeUpdate();
+            respuesta = cst.getInt(2);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyeccionDao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                desconectarBD(con);
+            } catch (SQLException ex) {
+                Logger.getLogger(ProyeccionDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return respuesta;
 
     }
-    
+
 }

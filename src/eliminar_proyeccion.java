@@ -1,7 +1,13 @@
 
-import dao.DataBaseOracle;
+import beans.Asignatura;
+import beans.Estudiante;
+import beans.Proyeccion;
+import dao.AsignaturaDao;
+import dao.EstudianteDao;
+import dao.ProyeccionDao;
 import javax.swing.table.*;
-import java.sql.*;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class eliminar_proyeccion extends javax.swing.JFrame {
@@ -40,7 +46,7 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         bt_eliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bt_buscarProyeccion = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         bt_buscar_est = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -81,7 +87,7 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabla);
 
-        jLabel8.setFont(new java.awt.Font("Verdana", 1, 24));
+        jLabel8.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jLabel8.setText("Asignaturas");
 
         javax.swing.GroupLayout fr_asignaturaLayout = new javax.swing.GroupLayout(fr_asignatura.getContentPane());
@@ -159,7 +165,7 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Verdana", 1, 24));
+        jLabel10.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         jLabel10.setText("Estudiantes");
 
         javax.swing.GroupLayout fr_estudiantesLayout = new javax.swing.GroupLayout(fr_estudiantes.getContentPane());
@@ -203,7 +209,7 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
 
         txt_codigo_estudiante.setEditable(false);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setText("Eliminar Proyección");
 
         bt_eliminar.setText("Eliminar");
@@ -215,14 +221,19 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
 
         jLabel2.setText("Codigo Asignatura");
 
-        jButton1.setText("...");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bt_buscarProyeccion.setText("...");
+        bt_buscarProyeccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bt_buscarProyeccionActionPerformed(evt);
             }
         });
 
         jButton3.setText("Cancelar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         bt_buscar_est.setText("...");
         bt_buscar_est.addActionListener(new java.awt.event.ActionListener() {
@@ -268,7 +279,7 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txt_codigo_asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(bt_buscarProyeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -276,7 +287,6 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
@@ -290,7 +300,7 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
                         .addGap(4, 4, 4)
                         .addComponent(jLabel2))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
+                        .addComponent(bt_buscarProyeccion)
                         .addComponent(txt_codigo_asignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -320,75 +330,68 @@ public class eliminar_proyeccion extends javax.swing.JFrame {
         return true;
     }
 
-    public void buscarDatosAsignatura(String SQL) {
+    public void buscarDatosAsignatura() {
         String titulos[] = {"Codigo Proyeccion", "Codigo Asignatura", "Asignatura", "Creditos"};
+        Asignatura asignatura = null;
+        List<Proyeccion> lista;
+        Proyeccion proyeccion=null;
+        int j = 0, total1 = 0;
 
-        int j, total1 = 0;
-        ResultSet con = null;
-        try {
+        AsignaturaDao db = new AsignaturaDao();
+        ProyeccionDao dbp = new ProyeccionDao();
+        total1 = db.cantidad();
 
-            //con=DataBaseOracle.Query("SELECT COUNT(*) FROM sia_asignaturas where asi_estado=1");
-            if (con.next()) {
-                total1 = con.getInt(1);
-            }
-            Object[][] data = new Object[total1][4];
-
-            //con=DataBaseOracle.Query(SQL);
-            j = 0;
-            while (con.next()) {
-                data[j][0] = con.getString(1);//codigo proyeccion
-                data[j][1] = con.getString(2);//codigo asignatura
-                data[j][2] = con.getString(3);//Nombre asignatura
-                data[j][3] = con.getString(4);//creditos
-
-                j++;
-            }//end while
-            // DefaultTableModel ob =new DefaultTableModel();
-            DefaultTableModel dtm = new DefaultTableModel(data, titulos);
-            tabla.setModel(dtm);
-        } catch (SQLException exc) {
-            System.err.println(exc.getMessage());
+        Object[][] data = new Object[total1][4];
+        lista = dbp.buscarPorEstudiante(Integer.parseInt(txt_codigo_estudiante.getText()));
+        Iterator<Proyeccion> i = lista.iterator();
+        while (i.hasNext()) {
+            proyeccion = i.next();           
+            data[j][0] = proyeccion.getIdProyeccion();
+            data[j][1] = proyeccion.getAsigntura().getIdAsigntaura();
+            data[j][2] = proyeccion.getAsigntura().getNombre();//Nombre asignatura
+            data[j][3] = proyeccion.getAsigntura().getCreditos();//creditos
+            
+            j++;
         }
+        DefaultTableModel dtm = new DefaultTableModel(data, titulos);
+        tabla.setModel(dtm);
     }
 
-    public void buscarDatosEstudiantes(String SQL) {
+    public void buscarDatosEstudiantes(String nombre) {
         String titulos[] = {"Codigo", "Nombres", "Apellidos"};
+        int j = 0, total1 = 0;
+        Estudiante estudiante = null;
+        List<Estudiante> lista = null;
 
-        int j, total1 = 0;
-        ResultSet con = null;
-        try {
+        EstudianteDao es = new EstudianteDao();
+        lista = es.buscarPorNombre(nombre);
+        Iterator<Estudiante> i = lista.iterator();
+        total1 = es.cantidadPorNombre(nombre);
+        Object[][] data = new Object[total1][4];
 
-            //con = DataBaseOracle.Query("SELECT COUNT(*) FROM sia_estudiantes where est_estado=1");
-            if (con.next()) {
-                total1 = con.getInt(1);
-            }
-            Object[][] data = new Object[total1][4];
-
-            //con = DataBaseOracle.Query(SQL);
-            j = 0;
-            while (con.next()) {
-                data[j][0] = con.getString("est_cod_matricula");//codigo estudiante
-                data[j][1] = con.getString("est_nombres");//nombre estudiante
-                data[j][2] = con.getString(3);//apellidos estudiante
-
-                j++;
-            }//end while
-            // DefaultTableModel ob =new DefaultTableModel();
-            DefaultTableModel dtm = new DefaultTableModel(data, titulos);
-            tabla_estudiantes.setModel(dtm);
-        } catch (SQLException exc) {
-            System.err.println(exc.getMessage());
+        while (i.hasNext()) {
+            estudiante = i.next();
+            data[j][0] = estudiante.getCod_matricula();
+            data[j][1] = estudiante.getNombres();
+            data[j][2] = estudiante.getApellidos();
+            j++;
         }
+        DefaultTableModel dtm = new DefaultTableModel(data, titulos);
+        tabla_estudiantes.setModel(dtm);
     }
 private void bt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminarActionPerformed
 
     try {
         if (validar()) {
-            String sql = "UPDATE  sia_proyecciones SET pro_estado=0 WHERE asi_codigo=" + txt_codigo_asignatura.getText() + " AND  est_codigo=(SELECT est_codigo FROM sia_estudiantes WHERE est_cod_matricula=" + txt_codigo_estudiante.getText() + " AND est_estado=1) AND pro_estado=1";
-            //DataBaseOracle.Execute(sql);
-
-            JOptionPane.showMessageDialog(this, "Proyección Eliminada");
+          ProyeccionDao db= new ProyeccionDao();
+          int i = db.eliminar(Integer.parseInt(txt_codigo_proyeccion.getText()));
+          if(i==1){
+              JOptionPane.showMessageDialog(this, "Proyección Eliminada");
             this.hide();
+          }else{
+              JOptionPane.showMessageDialog(this, "Error Proyección no Eliminada");
+          }
+            
 
         }
     } catch (Exception de) {
@@ -396,16 +399,12 @@ private void bt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     }
 }//GEN-LAST:event_bt_eliminarActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void bt_buscarProyeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscarProyeccionActionPerformed
     fr_asignatura.setLocationRelativeTo(null);
     fr_asignatura.setSize(400, 301);
     fr_asignatura.setVisible(true);
-    String sql = "SELECT p.pro_codigo, a.asi_codigo, a.asi_nombre, a.asi_creditos "
-            + "FROM sia_asignaturas a INNER JOIN sia_proyecciones p ON a.asi_codigo=p.asi_codigo "
-            + "INNER JOIN sia_estudiantes e ON p.est_codigo=e.est_codigo "
-            + "WHERE e.est_cod_matricula=" + txt_codigo_estudiante.getText() + " AND a.asi_estado=1 AND p.pro_estado=1 AND e.est_estado=1";
-    buscarDatosAsignatura(sql);
-}//GEN-LAST:event_jButton1ActionPerformed
+    buscarDatosAsignatura();
+}//GEN-LAST:event_bt_buscarProyeccionActionPerformed
 
 private void bt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_buscar_estActionPerformed
     fr_estudiantes.setLocationRelativeTo(null);
@@ -423,9 +422,9 @@ private void btaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void tablaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMousePressed
 
     int i = tabla.getSelectedRow();
-    String dato = (String) tabla.getValueAt(i, 0);//codigo proyeccion
+    String dato = tabla.getValueAt(i, 0).toString();//codigo proyeccion
     txt_codigo_proyeccion.setText(dato);
-    dato = (String) tabla.getValueAt(i, 1);//codigo asignatura
+    dato = tabla.getValueAt(i, 1).toString();//codigo asignatura
     txt_codigo_asignatura.setText(dato);
 }//GEN-LAST:event_tablaMousePressed
 
@@ -435,7 +434,7 @@ private void bt_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 private void tabla_estudiantesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_estudiantesMousePressed
     int i = tabla_estudiantes.getSelectedRow();
-    String dato = (String) tabla_estudiantes.getValueAt(i, 0);//codigo
+    String dato = tabla_estudiantes.getValueAt(i, 0).toString();//codigo
     txt_codigo_estudiante.setText(dato);
 }//GEN-LAST:event_tabla_estudiantesMousePressed
 
@@ -444,14 +443,12 @@ private void txt_buscar_estActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_txt_buscar_estActionPerformed
 
 private void txt_buscar_estKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_buscar_estKeyPressed
-    String sql;
-    if (!txt_buscar_est.getText().equals("")) {
-        sql = "SELECT * FROM sia_estudiantes WHERE est_nombres LIKE '" + txt_buscar_est.getText() + "%' AND est_estado=1";
-    } else {
-        sql = "SELECT * FROM sia_estudiantes WHERE est_estado=1";
-    }
-    buscarDatosEstudiantes(sql);
+    buscarDatosEstudiantes(txt_buscar_est.getText().toUpperCase());
 }//GEN-LAST:event_txt_buscar_estKeyPressed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.hide();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -490,12 +487,12 @@ private void txt_buscar_estKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_aceptar;
+    private javax.swing.JButton bt_buscarProyeccion;
     private javax.swing.JButton bt_buscar_est;
     private javax.swing.JButton bt_eliminar;
     private javax.swing.JButton btaceptar;
     private javax.swing.JFrame fr_asignatura;
     private javax.swing.JFrame fr_estudiantes;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
