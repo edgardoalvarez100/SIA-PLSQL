@@ -55,6 +55,7 @@ public class ProyeccionDao extends DataBaseOracle {
         Proyeccion pro = null;
         Estudiante estu = null;
         Asignatura as = null;
+        Nota nota=null;
         con = conectar();
         sql = "{call BUSCAR_PROY_COD_MATRICU(?,?)}";
         try {
@@ -71,11 +72,18 @@ public class ProyeccionDao extends DataBaseOracle {
                 as.setIdAsigntaura(rs.getInt("asi_codigo"));
                 as.setNombre(rs.getString("asi_nombre"));
                 as.setCreditos(rs.getInt("asi_creditos"));
-                pro.setNota(new Nota(rs.getInt("not_codigo"), rs.getDouble("definitiva")));
+                nota = new Nota();
+                nota.setIdNota(rs.getInt("not_codigo"));
+                nota.setDefinitiva(rs.getDouble("definitiva"));
+                nota.setPrimer_corte(rs.getDouble("not_1_corte"));
+                nota.setSegundo_corte(rs.getDouble("not_2_corte"));
+                nota.setTercer_corte(rs.getDouble("not_3_corte"));
+                pro.setNota(nota);
                 pro.setAsigntura(as);
                 estu = new Estudiante();
                 estu.setNombres(rs.getString("est_nombres"));
                 estu.setApellidos(rs.getString("est_apellidos"));
+                pro.setIdProyeccion(rs.getInt("pro_codigo"));
                 pro.setEstudiante(estu);
                 lista.add(pro);
             }
